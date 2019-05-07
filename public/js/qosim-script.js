@@ -16,8 +16,6 @@ var currentRulerValue = {
 
             setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
 
-            console.log(currentRulerValue.scaleValue);
-
             //Passes the corresponding cm or in value to ruler
             if( currentRulerValue.scaleValue !== undefined ) {
 
@@ -32,6 +30,8 @@ var currentRulerValue = {
 
                 $('.myruler').css( 'display', 'initial');
 
+                convertToPercentageForWidthScaling()
+
                 return;
             }
 
@@ -45,7 +45,102 @@ var currentRulerValue = {
 function setImageRulerAttributes( liImageItem ) {
 
     currentRulerValue.unit = liImageItem[1].nodeValue;
-    currentRulerValue.scaleValue = liImageItem[1].nodeValue;
+    currentRulerValue.scaleValue = liImageItem[2].nodeValue;
+
+}
+
+function convertToPercentageForWidthScaling() {
+        
+    $('.ruler.left').detach();
+
+    $('.ef-ruler .corner').text( '0' ).css('font-size', '8px');
+
+    //Sets the new tick values and brings them down by their height values
+    $('.tick').each( function(idx){
+
+        $(this).html('&nbsp;' + ( idx + 1 ) + '');
+
+
+        // 
+        $(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
+
+        $(this).css('transform', 'translateY('+ $(this).css('height') +')');
+
+    });
+
+    $('.tick').each( function( ){
+
+        $(this).click( function(){
+
+            var imageContainer = $( '.image-container' );
+
+            var selectedRulerValue = stripPxFromValue( $(this).text() );
+
+            if( currentRulerValue.unit === 'cm' ) {
+                
+                var newWidthHeight = getNewWidthAndHeightOfImageContainer( selectedRulerValue );
+
+                imageContainer.css( 'width', newWidthHeight);         
+            
+                document.querySelector( '.image-container' ).style.transform = 'translateX(' + (( stripPxFromValue(newWidthHeight) - 700 ) / 2 ) + 'px)';
+
+                return;
+            }
+
+            // Current value is inches
+
+            
+
+        });
+
+    });
+
+    function getNewWidthAndHeightOfImageContainer( selectedRulerValue ) {
+
+        if(selectedRulerValue === 0) return;
+
+        return ( 23.333 * selectedRulerValue ) + 'px';
+
+    }
+
+
+    function getZoomValue( selectedRulerValue ) {
+
+        if(selectedRulerValue === 30 
+            || selectedRulerValue === 0 ) return initial;
+
+        return ( ( ( 700 - ( selectedRulerValue * 23.333 ) ) / 700 ) );
+
+    }
+
+    // function getZoomValue( selectedRulerValue ) {
+
+    //     if(selectedRulerValue === 30 
+    //         || selectedRulerValue === 0 ) return initial;
+
+    //     return ( ( ( 700 - ( selectedRulerValue * 23.333 ) ) / 700 ) * 100 );
+
+    //     // return ( (percentageDifference * 700) / 100) + ((selectedRulerValue * 77) / 29 ) + '%';
+
+    // }
+
+    function stripPxFromValue( val ) {
+
+        return val.replace( 'px', '' );
+
+    }
+
+}
+
+function renderTicksByInches() {
+
+    var tickNum = 16 * (currentRulerValue.scaleValue)
+
+}
+
+function renderTicksByCm() {
+
+
 
 }
 
@@ -55,12 +150,28 @@ function setImageRulerAttributes( liImageItem ) {
 
     var textileThumbnail = document.querySelectorAll( '.textile-thumbnail' )[0];
 
+    // Runs as the first image loaded on to the main display section
     setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
 
     //Passes the corresponding cm or in value to ruler
     if( currentRulerValue.scaleValue !== undefined ) {
 
         initializeRulerWithParam($);
+        
+        var  newUnit = currentRulerValue.unit;
+
+        switch( newUnit ) {
+            case 'in':
+                renderTicksByInches();
+            case 'cm':
+                renderTicksByCm();
+        }
+        // $('.myruler').ruler({
+        //     unit: 'in',
+        //     tickMajor: 16,
+        //     tickMinor: 8,
+        //     tickMicro: 2
+        // });
 
         $('.myruler').ruler({
             unit: currentRulerValue.unit,
@@ -68,6 +179,7 @@ function setImageRulerAttributes( liImageItem ) {
             tickMinor: 5,
             tickMicro: 1
         });
+
         
         $('.myruler').css( 'display', 'initial');
     
@@ -77,81 +189,9 @@ function setImageRulerAttributes( liImageItem ) {
 
     }
 
-    setTimeout(convertToPercentageForWidthScaling(), 3000);
-
-    function convertToPercentageForWidthScaling() {
-        
-        $('.ruler.left').detach();
-
-        $('.ef-ruler .corner').text( '0' ).css('font-size', '8px');
-
-        $('.tick').each( function(idx){
-
-            $(this).html('&nbsp;' + ( idx + 1 ) + '');
-
-            $(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
-
-            $(this).css('transform', 'translateY('+ $(this).css('height') +')');
-
-        });
-
-        $('.tick').each( function( ){
-
-            $(this).click( function(){
-
-                var imageContainer = $( '.image-container' );
-
-                var selectedRulerValue = stripPxFromValue( $(this).text() );
-
-                var newWidthHeight = getNewWidthAndHeightOfImageContainer( selectedRulerValue );
-
-                imageContainer.css( 'width', newWidthHeight);         
-                
-                document.querySelector( '.image-container' ).style.transform = 'translateX(' + (( stripPxFromValue(newWidthHeight) - 700 ) / 2 ) + 'px)';
-
-            });
-
-        });
-
-        function getNewWidthAndHeightOfImageContainer( selectedRulerValue ) {
-
-            if(selectedRulerValue === 0) return;
-
-            return ( 23.333 * selectedRulerValue ) + 'px';
-
-        }
-
-
-        function getZoomValue( selectedRulerValue ) {
-
-            if(selectedRulerValue === 30 
-                || selectedRulerValue === 0 ) return initial;
-
-            return ( ( ( 700 - ( selectedRulerValue * 23.333 ) ) / 700 ) );
-
-        }
-
-        // function getZoomValue( selectedRulerValue ) {
-
-        //     if(selectedRulerValue === 30 
-        //         || selectedRulerValue === 0 ) return initial;
-
-        //     return ( ( ( 700 - ( selectedRulerValue * 23.333 ) ) / 700 ) * 100 );
-
-        //     // return ( (percentageDifference * 700) / 100) + ((selectedRulerValue * 77) / 29 ) + '%';
-
-        // }
-
-        function stripPxFromValue( val ) {
-
-            return val.replace( 'px', '' );
-
-        }
-
-    }
+    // setTimeout(convertToPercentageForWidthScaling(), 3000);
 
     
-
 }) (); // Javascript to manipulate ruler and ruler related actions
 
 

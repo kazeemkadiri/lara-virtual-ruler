@@ -142,7 +142,8 @@ div.ef-ruler .left{
 }
 
 .ruler.top{
-    top: -17px !important;
+    /* top: -17px !important; */
+    top: 7px !important; 
     left: 12px;
 }
 
