@@ -10,7 +10,9 @@ class TextileImage extends Model
 
     protected $fillable = [
         'name',
-        'user_id'
+        'user_id',
+        'scale_unit',
+        'scale_value'
     ];
 
 }

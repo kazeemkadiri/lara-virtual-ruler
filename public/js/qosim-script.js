@@ -12,7 +12,8 @@
 
     });
 
-})();
+})();// Hanldles all thumbnail actions
+
 
 (function() {
 
@@ -102,36 +103,23 @@
 
     
 
-}) (); // Javascript to manipulate ruler end
+}) (); // Javascript to manipulate ruler and ruler related actions
+
 
 
 (function () {
 
-    if( document.querySelector( '#switch-checked' ) === null ) return;
+    if( useDOMElement( '#textile-image-uploader' ) === null ) return;
 
-        var checkedState = false;
-
-        $('#switch-checked').click(function() {
-
-            console.log( $('input:checked').length );
-            // If 1, is blue
-            // If 0, is green
-
-        });
+    var checkedState = false;
     
+    $("#show-custom-props").click(function() {
 
-        $("#show-input").click(function() {
+        checkedState = !checkedState; 
 
-            checkedState = !checkedState; 
+        $('#custom-scale-props').css('visibility', checkedState ? 'visible' : 'collapse');
 
-            $('#custom-props-example').css('visibility', checkedState ? 'visible' : 'collapse');
-
-        });
-        
-}) (); // form elements scaling 
-
-(function () {
-
+    });
     
     $('#switch-checked').click(function() {
 
@@ -139,41 +127,72 @@
         
         $('#scale-unit').val( selectedUnit );
 
-        // If 1, is blue
-        // If 0, is green
+        // If 1, is inches
+        // If 0, is cm
 
     }); // Add listener for click event
 
-    if( document.querySelector( '#file-drag' ) === null ) return;
 
-    document.querySelector('#file-drag').addEventListener('click', function( e ){
+    useDOMElement('.upload-input').addEventListener('click', function( e ){
 
-        document.querySelector('#textile_image').click();
+        useDOMElement('#textile_image').click();
 
-    });
+    });// Triggers the form upload input field to click
 
-    document.querySelector('#apply-settings').addEventListener('click', function( e ) {
-    
+
+    useDOMElement('#apply-settings').addEventListener('click', function( e ) {
         
-        if( useDOMElement('#textile_image').value === null ) {
+        if( useDOMElement('#textile_image').value === '' ) {
              
-            useDOMElement( '#my-alert' ).text('Some form fields have not being filled');
+            displayAlert();
             
             return;
         }
 
-        if( useDOMElement( '' ) ) {
+        // If user does not want to add ruler scaling value and unit
+        if( !checkedState ) {  
+            
+            useDOMElement( '#scale-unit' ).value = '';
 
-            useDOMElement( '#scale-value' ).value === null;
+            submitForm(); 
+            
+            return; 
+        }
+
+        if( checkedState && useDOMElement( '#scale-value' ).value === '' ) {
+
+            displayAlert();
+
+            return;
 
         }
 
-        useDOMElement('#textile-image-uploader').submit();
+        submitForm();
     
     });
+
+    function removeAlert(){
+
+        useDOMElement( '#my-alert' ).style.display = none;
+
+    }
+
+    function displayAlert() {
+
+        useDOMElement( '#my-alert' ).innerHTML = 'Missing form fields';
+
+        useDOMElement( '#my-alert' ).style.display = 'initial';
+
+    }
+
+    function submitForm() {
+
+        useDOMElement('.uploader').submit();
+
+    }
 
     function useDOMElement( selector ) {
         return document.querySelector( selector );
     }
 
-});
+})();

@@ -19,11 +19,10 @@ Auth::routes();
 
 Route::get('login', 'Auth\LoginController@showLoginForm');
 
-Route::get('/product-catalog', 'AdminController@product_catalog');
+Route::post('image-upload', 'AdminController@image_upload')->name('image-upload');
 
-Route::get('/single-product', 'AdminController@single_product');
+Route::get('product-catalog', 'AdminController@product_catalog');
 
-
-Auth::routes();
+Route::get('single-product', 'AdminController@single_product');
 
 Route::get('/home', 'HomeController@index')->name('home');

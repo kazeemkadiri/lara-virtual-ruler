@@ -69,11 +69,14 @@
                                 <div class="col-12 text-left"><h4>Photos</h4></div>
                                 <div class="col-12 text-left"><p>Choose and upload a photo</p></div>
 
+                                <div class="col-12">
 
-                                <div class="col-md-3 col-lg-3"></div>
+                                    <div class="row">
+                                        <div class="col-12 my-3 d-flex">
+                                            <div id="my-alert" class="alert alert-danger text-center w-100" style="display:none;"></div>
+                                        </div>
+                                    </div>
 
-                                <div class="col-md-8 col-lg-8">
-                                
                                     <div class="row">
 
                                         <div class="col-5">
@@ -86,6 +89,8 @@
                                         </div>
 
                                         <div class="col-7">
+
+                                            
 
                                             @php $uploadResponse = session() -> pull( 'textile-image-upload-response' ) @endphp
 
@@ -109,15 +114,24 @@
                                                 
                                                 {{ csrf_field() }}
                                                 
-                                                <input type='text' id='scale-unit'>
+                                                <input type='text' 
+                                                        id='scale-unit' 
+                                                        name='scale_unit'
+                                                        value='cm'
+                                                        style='display:none;'>
+
+                                                <input type='text' 
+                                                        id='scale-value' 
+                                                        name='scale_value'
+                                                        style='display:none;'>
 
                                                 <input id="textile_image" 
                                                         type="file" 
                                                         name="textile_image" 
                                                         accept="image/*" 
-                                                        style="display:initial;">
+                                                        style="display:none;">
                                                 
-                                                <label for="file-upload" id="file-drag">
+                                                <label for="file-upload" id="file-drag" class="upload-input">
                                                     <div id="start">
                                                     <i class="fa fa-camera" aria-hidden="true"></i>
                                                     <div>Add a photo</div>
@@ -137,12 +151,12 @@
                                                 </div>
                                                 
                                                 <div class="col-6 d-flex justify-content-center align-items-center">
-                                                    <input type="checkbox" class="pull-right" name="show-input" id="show-input" >
+                                                    <input type="checkbox" class="pull-right" name="show-input" id="show-custom-props" >
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-12 mt-1 mb-2" id="custom-props-example" 
+                                        <div class="col-12 mt-1 mb-2" id="custom-scale-props" 
                                             style="display: flex; align-items: center; visibility: hidden;">
                                             
                                             <div class="row">
@@ -185,20 +199,21 @@
                                                             id="custom-value" 
                                                             style="width: 60px">
                                                     </div>
-                                                    <div class="col-12">
-                                                        <button id='apply-settings'
-                                                                type='button' 
-                                                                class='btn btn-primary'>
-                                                                Apply
-                                                        </button>
-                                                    </div>
+
                                                 </div>
                                                 </div>
                                             </div>
-
                                         </div>
 
-                                        
+                                        <div class="row">
+                                                <div class="col-12 d-flex justify-content-end">
+                                                    <button id='apply-settings'
+                                                            type='button' 
+                                                            class='btn btn-primary w-50'>
+                                                            Apply
+                                                    </button>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                                 </div>

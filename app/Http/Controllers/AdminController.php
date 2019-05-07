@@ -53,7 +53,7 @@ class AdminController extends Controller
 
         $path = $req->file('textile_image')->store('textile-images', 'public');
 
-        $responseMsg = $path ? $this -> store_path_in_db( $path ) : 'failed';
+        $responseMsg = $path ? $this -> store_data_in_db( $req, $path ) : 'failed';
 
         session()->flash('textile-image-upload-response', $responseMsg );
 
@@ -61,11 +61,13 @@ class AdminController extends Controller
 
     } 
 
-    public function store_path_in_db( $filePath ) {
+    public function store_data_in_db( $req, $filePath ) {
 
         return TextileImage::firstOrCreate([
                 'name' => 'storage/' . $filePath,
-                'user_id' => Auth::user()->id
+                'user_id' => Auth::user()->id,
+                'scale_value' => $req->scale_value,
+                'scale_unit' => $req->scale_unit
             ])-> wasRecentlyCreated ? 'success' : 'failed';
 
     }
