@@ -1,4 +1,4 @@
-function initializeRulerWithParam($, qosimRulerParams) {
+function initializeRulerWithParam($) {
     $.widget("ef.ruler", {
         options: {
             unit: 'px',
@@ -253,13 +253,16 @@ function initializeRulerWithParam($, qosimRulerParams) {
         _fixRulerSize: function () {
 
             // Qosim's custom code
+            
 
 
             var wContainer = this._$container.width() + 1600,
                 hContainer = this._$container.height(),
                 wStage = this._$stage.width(),
                 hStage = this._$stage.height();
-           console.log(wContainer);
+
+           console.log('ContainerWidth', wContainer);
+
             /* Fix rulers size */
             this._$topRuler.width(
                 (wContainer < wStage) ?

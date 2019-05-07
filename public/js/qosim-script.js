@@ -1,3 +1,8 @@
+var currentRulerValue = {
+    unit: '',
+    scaleValue: '',
+};
+
 (function() {
 
     document.querySelectorAll( '.textile-thumbnail' ).forEach( function( textileThumbnail ) {
@@ -9,38 +14,68 @@
             // Renders image into main image view
             mainTextileImageDisplay.src =  (this.children[0]).children[0].src;
 
+            setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
+
+            console.log(currentRulerValue.scaleValue);
+
             //Passes the corresponding cm or in value to ruler
-            if( (textileThumbnail.attributes[2]).split('=')[1] !== '' ) {
+            if( currentRulerValue.scaleValue !== undefined ) {
 
-                var scaleUnit = (textileThumbnail.attributes[1]).split('=')[1];
-                var scaleValue = (textileThumbnail.attributes[2]).split('=')[1];
+                initializeRulerWithParam($);
+                
+                $('.myruler').ruler({
+                    unit: currentRulerValue.unit,
+                    tickMajor: 10,
+                    tickMinor: 5,
+                    tickMicro: 1
+                });
 
-                initializeRulerWithParam(scaleUnit, scaleValue);
+                $('.myruler').css( 'display', 'initial');
 
+                return;
             }
 
+            $('.myruler').css( 'display', 'none');
         })
-
-        console.log(textileThumbnail);
-        //if data scale value render ruler in equivalent centimeter or inches
 
     });
 
 })();// Hanldles all thumbnail actions
 
+function setImageRulerAttributes( liImageItem ) {
+
+    currentRulerValue.unit = liImageItem[1].nodeValue;
+    currentRulerValue.scaleValue = liImageItem[1].nodeValue;
+
+}
 
 (function() {
 
     if( document.querySelector( '.myruler' ) === null ) return;
 
-    $('.myruler').ruler({
-        unit: 'cm',
-        tickMajor: 10,
-        tickMinor: 5,
-        tickMicro: 1,
-        showLabel: true,
-        arrowStyle:'arrow'
-    });
+    var textileThumbnail = document.querySelectorAll( '.textile-thumbnail' )[0];
+
+    setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
+
+    //Passes the corresponding cm or in value to ruler
+    if( currentRulerValue.scaleValue !== undefined ) {
+
+        initializeRulerWithParam($);
+
+        $('.myruler').ruler({
+            unit: currentRulerValue.unit,
+            tickMajor: 10,
+            tickMinor: 5,
+            tickMicro: 1
+        });
+        
+        $('.myruler').css( 'display', 'initial');
+    
+    } else {
+
+        $('.myruler').css( 'display', 'none');
+
+    }
 
     setTimeout(convertToPercentageForWidthScaling(), 3000);
 
@@ -218,3 +253,4 @@
     }
 
 })();
+
