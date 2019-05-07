@@ -120,11 +120,18 @@ function renderRulerTicksByInches () {
 
     rulerElement.innerHTML = '';
 
+    var rulerTop = createElement('div');
+
+    rulerTop.classList.add('ruler', 'top');
+
+    
+    
+
     for( var i = 0; i < 304; i++ ) {
         
         if( 16 % i === 0 ) {
 
-            renderTick( i, 2.54, 'major' );
+            rulerTop.appendChild( renderTick( i, 2.54, 'major' ) );
 
             continue;
 
@@ -132,29 +139,43 @@ function renderRulerTicksByInches () {
 
         if( 8 % i === 0 ) {
 
-            renderTick( i, 2.54, 'minor' );
+            rulerTop.appendChild( renderTick( i, 2.54, 'minor' ) );
 
             continue;
 
         }
 
-        renderTick( i, 2.54, 'micro' );
+        rulerTop.appendChild( renderTick( i, 2.54, 'micro' ) );
         
     }
 
+    var corner = createElement('div');
+
+    corner.classList.add('corner');
+
+    var efRuler = createElement('div');
+
+    efRuler.classList.add('ef-ruler');
+
+    efRuler.appendChild( corner );
+
+    efRuler.appendChild( rulerTop );
+
+    var rulerElement = document.querySelector( '.myruler' );
+
+    rulerElement.appendChild( efRuler );
+    
 }
 
 function renderTick( index, tickConstraint, tickType ) {
 
     var element = createElement('div');
 
-    element.addClass('tick', tickType );
+    element.classList.add('tick', tickType );
 
     element.style.left = (index * tickConstraint) + 'px' ;
 
-    var rulerElement = document.querySelector( '.myruler' );
-
-    element.appendTo( rulerElement );
+    return element;
     console.log('appending');
 }
 
