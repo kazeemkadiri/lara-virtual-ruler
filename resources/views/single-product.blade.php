@@ -85,8 +85,8 @@
                             <div class="row">
 
                                 <!-- All textile images thumbnail are presented here -->
-                                <div class="col-12" 
-                                     style="width:599px; max-width:600px;">  
+                                <div class="col-12 mt-3" 
+                                     style="width:699px !important; flex-basis:initial;">  
 
                                     <nav aria-label="Page navigation example" 
                                          class="d-flex justify-content-center" 
@@ -96,7 +96,10 @@
 
                                             @forelse ( $textileImages as $textileImage )
 
-                                                <li class="page-item textile-thumbnail" style="overflow:hidden; position:relative; min-width:6em; max-width:6em; max-height: 6em;">
+                                                <li class="page-item textile-thumbnail"
+                                                    data-scale-unit="{{ $textileImage -> scale_unit }}"
+                                                    data-scale-value="{{ $textileImage -> scale_value }}" 
+                                                    style="overflow:hidden; position:relative; min-width:6em; max-width:6em; max-height: 6em;">
                                                     <a class="page-link d-flex align-items-center" 
                                                         href="#"
                                                         style="width:99%; max-width:100%; height:99%; max-height:100%; position:relative;">

@@ -23,6 +23,6 @@ Route::post('image-upload', 'AdminController@image_upload')->name('image-upload'
 
 Route::get('product-catalog', 'AdminController@product_catalog');
 
-Route::get('single-product', 'AdminController@single_product');
+Route::get('products', 'AdminController@single_product');
 
 Route::get('/home', 'HomeController@index')->name('home');

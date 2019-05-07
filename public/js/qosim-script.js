@@ -6,9 +6,23 @@
 
         textileThumbnail.addEventListener( 'click', function( ) {
 
+            // Renders image into main image view
             mainTextileImageDisplay.src =  (this.children[0]).children[0].src;
 
+            //Passes the corresponding cm or in value to ruler
+            if( (textileThumbnail.attributes[2]).split('=')[1] !== '' ) {
+
+                var scaleUnit = (textileThumbnail.attributes[1]).split('=')[1];
+                var scaleValue = (textileThumbnail.attributes[2]).split('=')[1];
+
+                initializeRulerWithParam(scaleUnit, scaleValue);
+
+            }
+
         })
+
+        console.log(textileThumbnail);
+        //if data scale value render ruler in equivalent centimeter or inches
 
     });
 
@@ -34,11 +48,11 @@
         
         $('.ruler.left').detach();
 
-        $('.ef-ruler .corner').text( 'cm' ).css('font-size', '8px');
+        $('.ef-ruler .corner').text( '0' ).css('font-size', '8px');
 
         $('.tick').each( function(idx){
 
-            $(this).html('&nbsp;' + idx + '');
+            $(this).html('&nbsp;' + ( idx + 1 ) + '');
 
             $(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
 
@@ -119,7 +133,15 @@
 
         $('#custom-scale-props').css('visibility', checkedState ? 'visible' : 'collapse');
 
-    });
+    });// Display or show custom props fields
+
+    $('#custom-value').keyup( function() {
+
+        $('#scale-value').val( $(this).val() );
+
+        console.log( $('#scale-value').val() );
+
+    });// Sets the new scale value for the textile image ruler
     
     $('#switch-checked').click(function() {
 

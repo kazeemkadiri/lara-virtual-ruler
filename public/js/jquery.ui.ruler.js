@@ -1,4 +1,4 @@
-(function ($) {
+function initializeRulerWithParam($, qosimRulerParams) {
     $.widget("ef.ruler", {
         options: {
             unit: 'px',
@@ -251,11 +251,15 @@
         },
 
         _fixRulerSize: function () {
+
+            // Qosim's custom code
+
+
             var wContainer = this._$container.width() + 1600,
                 hContainer = this._$container.height(),
                 wStage = this._$stage.width(),
                 hStage = this._$stage.height();
-           
+           console.log(wContainer);
             /* Fix rulers size */
             this._$topRuler.width(
                 (wContainer < wStage) ?
@@ -370,4 +374,5 @@
             this._updateRulerTicks(true);
         }
     });
-})(jQuery);
+}
+
