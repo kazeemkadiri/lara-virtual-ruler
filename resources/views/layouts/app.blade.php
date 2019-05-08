@@ -18,10 +18,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/qosim-styles.css') }}" rel="stylesheet">
     <link href="{{ asset('css/file-upload.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.ui.ruler.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/qosim-styles.css') }}" rel="stylesheet"> 
 </head>
 <body>
     

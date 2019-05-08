@@ -77,7 +77,8 @@
                                 <div class="ruler-col-container"
                                      style="display:block; 
                                             overflow:hidden;">
-                                    <div class="myruler mt-1" style="display:none;"></div>
+                                    <div class="myruler mt-1"></div>
+                                    <div class="second-ruler mt-1"></div>
                                 </div>
 
                             </div>
