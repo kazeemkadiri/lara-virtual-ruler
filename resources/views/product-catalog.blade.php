@@ -133,12 +133,18 @@
                                                 
                                                 <label for="file-upload" id="file-drag" class="upload-input">
                                                     <div id="start">
-                                                    <i class="fa fa-camera" aria-hidden="true"></i>
-                                                    <div>Add a photo</div>
+                                                        <i class="fa fa-camera" aria-hidden="true"></i>
+                                                        <div>Add a photo</div>
+                                                        
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                                 role="progressbar" 
+                                                                 aria-valuenow="75" 
+                                                                 aria-valuemin="0" 
+                                                                 aria-valuemax="100" 
+                                                                 style="width: 100%; height: 0px;"></div>
+                                                        </div>
                                                     </div>
-                                                    <progress class="progress" id="file-progress" value="100">
-                                                        <span>100</span>%
-                                                    </progress>
                                                     </div>
                                                 </label>
                                             </form>

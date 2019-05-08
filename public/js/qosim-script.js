@@ -418,7 +418,17 @@ function convertToPercentageForWidthScaling() {
 
         $('#scale-value').val( $(this).val() );
 
-        console.log( $('#scale-value').val() );
+        if( ($(this).val() > 30) && $('#scale-unit').val() == 'cm' ) {
+            
+            alertCmLimitExceeded();
+
+        }
+
+        if( ($(this).val() > 11.8) && $('#scale-unit').val() == 'in' ) {
+            
+            alertInchesLimitExceeded();
+
+        }
 
     });// Sets the new scale value for the textile image ruler
     
@@ -428,11 +438,40 @@ function convertToPercentageForWidthScaling() {
         
         $('#scale-unit').val( selectedUnit );
 
-        // If 1, is inches
-        // If 0, is cm
+        if( (selectedUnit === 'cm') && $('#custom-value').val() > 30 ) {
+
+            alertCmLimitExceeded();
+
+        }
+
+        if( (selectedUnit === 'in') && $('#custom-value').val() > 11.8 ) {
+
+            alertInchesLimitExceeded();
+
+        }
 
     }); // Add listener for click event
 
+    function alertCmLimitExceeded() {
+        alert("Max value is 30");
+
+        $('#scale-value').val();
+    }
+
+    function alertInchesLimitExceeded() {
+        alert("Max value is 11.8");
+
+        $('#scale-value').val();
+    }
+
+    useDOMElement('#textile_image').addEventListener('change', function(){
+
+        var faIcon = useDOMElement('.fa.fa-camera');
+        faIcon.classList.remove('fa-camera');
+
+        faIcon.classList.add('fa-check');
+
+    });
 
     useDOMElement('.upload-input').addEventListener('click', function( e ){
 
@@ -489,6 +528,8 @@ function convertToPercentageForWidthScaling() {
     function submitForm() {
 
         useDOMElement('.uploader').submit();
+
+        useDOMElement('.progress-bar').style.height = 'inherit';
 
     }
 

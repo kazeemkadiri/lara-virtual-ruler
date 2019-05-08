@@ -126,8 +126,7 @@ div.ef-ruler .left{
 }
 
 .ef-ruler, .inches-ruler.show{
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
+    overflow: hidden !important;
     height: 50px !important;
     border-bottom: 1px solid #212529;
     border-right: 1px solid #212529;
@@ -218,3 +217,4 @@ div.ef-ruler .left{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
