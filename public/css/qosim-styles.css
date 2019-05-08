@@ -152,7 +152,7 @@ div.ef-ruler .left{
 
 .ef-ruler .corner, .inches-ruler .corner{
     border-width: 1px 0px 0px 0px;
-    width: 12px;
+    width: 0px;
     height: 5px;
 }
 

@@ -15,9 +15,65 @@ var currentRulerValue = {
     // Runs as the first image loaded on to the main display section
     setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
 
-    renderCmRuler();
+    renderRuler();
 
-    renderRulerTicksByInches();
+    
+}) (); // Javascript to manipulate ruler and ruler related actions
+
+function renderRuler() {
+
+    $('.myruler').ruler({
+        unit: 'cm',
+        tickMajor: 10,
+        tickMinor: 5,
+        tickMicro: 1
+    });
+
+    setTimeout( function() {
+
+        translateTicksDown( '.myruler' );
+
+        addRulerScalingInfoInsideRuler( '.myruler', 'Centimeters(cm)', 'cm');
+
+        addListenerForRulerTicksClick('.myruler');
+        
+        $('.myruler .ef-ruler .ruler.top').css('width', '700px !important');
+
+        $('.tick').each( function(idx){
+
+            $(this).html( idx );
+
+            $(this).data('index', idx );
+
+            $(this).css( 'left',  idx === 0 ? '0px' : ( (idx * 23.33) + 'px') );
+
+        });
+
+        renderRulerTicksByInches(); // clones the cm ruler "ef-ruler" and appends to inches ruler "secondruler"
+
+        setTimeout( function() {
+            
+            addListenerForRulerTicksClick( '.secondruler' );
+
+            translateTicksDown( '.secondruler' );
+
+            renderRulerForFirstImage();
+
+            addRulerScalingInfoInsideRuler( '.secondruler', 'Inches(in)', 'in' );
+
+        }, 3000);
+
+    }, 3000);
+
+}
+
+function addRulerScalingInfoInsideRuler( rulerInstance, scaleDesc, scaleUnit ) {
+
+    $( rulerInstance + ' .ef-ruler').append('<div class="ruler-scale-info mt-4 '+ scaleUnit +'" style="display:none"><h4>'+ scaleDesc +'</div>');
+
+}
+
+function renderRulerForFirstImage() {
 
     //Passes the corresponding cm or in value to ruler
     if( currentRulerValue.scaleValue !== undefined ) {    
@@ -44,24 +100,6 @@ var currentRulerValue = {
 
     }
 
-    
-}) (); // Javascript to manipulate ruler and ruler related actions
-
-function renderCmRuler() {
-
-    $('.myruler').ruler({
-        unit: 'cm',
-        tickMajor: 10,
-        tickMinor: 5,
-        tickMicro: 1
-    });
-
-    $('.second-ruler').ruler({
-        unit: 'cm',
-        tickMajor: 10,
-        tickMinor: 5,
-        tickMicro: 1
-    });
 }
 
 function renderTicksByCm() {
@@ -79,52 +117,34 @@ function renderTicksByCm() {
     $( '.main-textile-image').css( 'width', textileImageWidth + '!important' );
 
     imageContainer.css('transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 700 ) / 2 ) + 'px)' );
-
-    setTimeout( function() {
-        translateTicksDown();
-
-        addListenerForRulerTicksClick();
-        
-        $('.myruler .ef-ruler .ruler.top').css('width', '700px !important');
-
-        $('.tick').each( function(idx){
-
-            $(this).html( idx );
-
-            $(this).data('index', idx );
-
-            $(this).css( 'left',  idx === 0 ? '0px' : ( (idx * 23.33) + 'px') );
-
-        });
-
-    }, 3000);
 }
 
-function addListenerForRulerTicksClick() {
+function addListenerForRulerTicksClick(rulerInstance) {
 
-    $('.tick').each( function( idx ){
+    
+        $( rulerInstance + ' .tick').each( function( idx ){
 
-        //$(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
+            //$(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
 
-        var that = this;
+            var that = this;
 
-        $(that).click( function(){
+            $(that).click( function(){
 
-            setNewWidthForImageContainer( that );
+                setNewWidthForImageContainer( that );
+
+            });
 
         });
-
-    });
 
 }
 
 function renderTicksByInches() {
 
+    // console.log('Rendering by inches');
+
     getInchesRuler( 'show' );
 
     getCmRuler( 'hide' );
-
-    $('.inches-ruler').addClass('show');
 
     var tempInchValue = currentRulerValue.scaleValue;
     
@@ -144,87 +164,87 @@ function renderTicksByInches() {
 
     $( '.main-textile-image').css( 'width', textileImageWidth + '!important' );
 
-    addListenerForRulerTicksClick();
-
-    detachLeftRuler();
-
+    imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 700 ) / 2 ) + 'px)') ;
 }
 
 function getCmRuler( state ) {
 
-    $('.myruler .ef-ruler').css('display', state == 'show' ? 'initial' : 'none');
+    $('.myruler .ef-ruler').css('display', state == 'show' ? 'inherit' : 'none');
+    $('.myruler').css('display', state == 'show' ? 'inherit' : 'none');
+    $('.myruler .cm').css('display', state == 'show' ? 'block' : 'none');
 
 }
 
 function getInchesRuler( state ) {
 
-    $('.second-ruler .ef-ruler').css('display', state == 'show' ? 'initial' : 'none');
+    $('.secondruler .ef-ruler').css('display', state == 'show' ? 'inherit' : 'none');
+
+    $('.secondruler').css('display', state == 'show' ? 'inherit' : 'none');
+
+    $('.secondruler .in').css('display', state == 'show' ? 'block' : 'none');
 
 }
 
 function renderRulerTicksByInches () {
 
-    var rulerTop = document.querySelector('.second-ruler .ruler.top');
+    document.querySelector('.secondruler').append(document.querySelector('.ef-ruler').cloneNode( true ));
  
+    var rulerTop = document.querySelector('.secondruler .ruler');
 
-    for( var i = 0; i < 184; i++ ) {
+    var tickElement = '';
+
+    for( var j = 0; j < 150; j++) {
+
+        tickElement = document.createElement( 'div' );
         
-        if( i % 16 === 0 ) {
+        tickElement.classList.add( 'tick' );
+        
+        rulerTop.append( tickElement );
 
-            rulerTop.append( renderTick( i, 3.80, 'major' ) );
+    } // Adds additional elements to use as ticks. Insufficient generated by default
 
-            continue;
+    rulerTop.querySelectorAll( '.tick' ).forEach( function(tickElem, idx) {
+
+        tickElem.innerHTML = '';
+
+        if( idx % 16 === 0 ) {
+
+            modifyTickAttributes( idx, 3.80, 'major', tickElem );
+
+            return;
 
         }
 
-        if( i % 8 === 0 ) {
+        if( idx % 8 === 0 ) {
 
-            rulerTop.append( renderTick( i, 3.80, 'minor' ) );
+            modifyTickAttributes( idx, 3.80, 'minor', tickElem );
 
-            continue;
-
+            return;
         }
 
-        rulerTop.append( renderTick( i, 3.80, 'micro' ) );
-        
-    }
-
-    console.log(rulerTop);
-
-    $('.second-ruler .ef-ruler .ruler').css('width', '700px !important');
-
-    var count = 0;
-    
-    $('.second-ruler .tick').each( function(){
-
-        console.log($(this), count++);
+        modifyTickAttributes( idx, 3.80, 'micro', tickElem );
 
     });
 
-
-    $('.second-ruler .tick').each( function(idx){
-
-        $(this).data('index', idx );
-
-        $(this).css( 'left',  idx === 0 ? '0px' : ( (idx * 3.80) + 'px') );
-
-    });
-
+   
 }
 
-function renderTick( index, tickConstraint, tickType ) {
+function modifyTickAttributes( index, tickConstraint, tickType, tickElem ) {
 
-    var element = createElement('div');
+    tickElem.className = '';
+    tickElem.classList.add('tick', tickType );
 
-    element.classList.add('tick', tickType );
-
-    element.style.left = (index * tickConstraint) + 'px' ;
+    tickElem.style.left = (index * tickConstraint) + 'px' ;
     
+    if(tickType === 'major') {
+        
+        tickElem.innerHTML = (index % 16 === 0) && ( index >= 16) ? ( index / 16 ) : '' ;
 
-    if(tickType === 'major')
-    element.innerHTML = (index % 16 === 0) && ( index >= 16) ? ( index / 16 ) : '' ;
+    }
 
-    return element;
+    tickElem.setAttribute( 'dataTickValue', index);
+
+    return tickElem;
     
 }
 
@@ -242,7 +262,7 @@ function createElement( elementTitle ) {
 
         textileThumbnail.addEventListener( 'click', function( ) {
 
-            // Renders image into main image view
+            // Renders image into main image view by getting src from image tag in list thumbnail
             mainTextileImageDisplay.src =  (this.children[0]).children[0].src;
 
             setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
@@ -253,8 +273,15 @@ function createElement( elementTitle ) {
                 if( currentRulerValue.unit === 'cm' ) {
 
                     renderTicksByCm();
+
+                    // console.log('rendering cm ruler')
     
-                } else {  renderTicksByInches();  }
+                } else {  
+                    
+                    renderTicksByInches(); 
+                    
+                    // console.log('rendering inches ruler');
+                }
 
                 return;
             }
@@ -275,16 +302,16 @@ function setImageRulerAttributes( liImageItem ) {
 
 function detachLeftRuler() {
 
-    $('.ruler.left').detach();
+    $('.ruler.left').each( function(){ $(this).detach(); });
 
-    $('.ef-ruler .corner').text( '0' ).css('font-size', '8px');
+    $('.ef-ruler .corner').each( function(){ $(this).text( '0' ).css('font-size', '8px'); });
 
 }
 
-function translateTicksDown(){
-    console.log('celled')
+function translateTicksDown( rulerInstance ){
+
     //Sets the new tick values and brings them down by their height values
-    $('.tick').each( function(idx){
+    $( rulerInstance + ' .tick' ).each( function(idx){
 
         $(this).css('transform', 'translateY('+ $(this).css('height') +')');
 
@@ -305,14 +332,16 @@ function setNewWidthForImageContainer( tickSelected ) {
         newWidth = getNewCmWidth( selectedRulerValue );
 
     } else if( currentRulerValue.unit === 'in' ) {
+
+        selectedRulerValue = $(tickSelected).attr('datatickvalue');
         
-        newWidth = getNewInchesWidth( selectedRulerValue );
+        newWidth = getNewInchesWidth( selectedRulerValue  );
 
     }
 
     imageContainer.css( 'width', newWidth);     
     
-    console.log('changing width of container', newWidth, (( stripPxFromValue(newWidth) - 700 ) / 2 ))
+    // console.log('changing width of container', newWidth, (( stripPxFromValue(newWidth) - 700 ) / 2 ))
     
     imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(newWidth) - 700 ) / 2 ) + 'px)') ;
 
@@ -332,7 +361,7 @@ function getNewInchesWidth( selectedRulerValue ) {
 
     if(selectedRulerValue === 0) return;
 
-    return ( 2.57 * selectedRulerValue ) + 'px';
+    return ( 3.80 * selectedRulerValue ) + 'px';
 
 }
 

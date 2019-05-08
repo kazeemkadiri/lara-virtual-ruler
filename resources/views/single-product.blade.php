@@ -63,7 +63,7 @@
                                                 overflow-y: auto;
                                                 position:relative">
 
-                                        <img src="{{ $textileImages[0] -> name }}" 
+                                        <img src="{{ count($textileImages) > 0 ? $textileImages[0] -> name : '' }}" 
                                             id="main-textile-image" 
                                             style="width: 699px !important;
                                                    height: auto; 
@@ -77,8 +77,8 @@
                                 <div class="ruler-col-container"
                                      style="display:block; 
                                             overflow:hidden;">
-                                    <div class="myruler mt-1"></div>
-                                    <div class="second-ruler mt-1"></div>
+                                    <div class="myruler mt-1" style="display:none;"></div>
+                                    <div class="secondruler mt-1" style="display:none;"></div>
                                 </div>
 
                             </div>
