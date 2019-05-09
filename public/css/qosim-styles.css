@@ -218,3 +218,7 @@ div.ef-ruler .left{
     -ms-user-select: none;
     user-select: none;
 }
+
+body{
+    padding: 0rem;
+}

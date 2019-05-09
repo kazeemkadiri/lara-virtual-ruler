@@ -2,27 +2,28 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
 
-    <div class="row">
+    <div class="row mx-0">
 
         
+       <div class="col-md-2 col-lg-2 mx-0">
+            @if(Auth::user())
+                
+                @include('layouts.sidebar')
+                
+            @endif
+        </div>
 
-        @if(Auth::user())
-        <div class="col-md-3 col-lg-3">
-         @include('layouts.sidebar')
-         </div>
-        @endif
-
-        <div class="col-md-9 col-lg-9 m-0">
+        <div class="col-md-10 col-lg-10 m-0">
 
             <div class="row">
             
-                <div class="col-4 px-0 text-left"><h2> Catalog </h2></div>
+                <div class="col-4 mx-0 px-3 pb-0 pt-2 text-left"><h2> Catalog </h2></div>
             
-                <div class="col-6 d-flex justify-content-end"> 
+                <div class="col-8 px-4 pt-0 d-flex justify-content-end"> 
                    
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 justify-content-end">
                     <div class="input-group-prepend">
                         <button class="btn btn-outline-secondary" 
                                 style=" border-right:none; border-color: #ced4da;"><i class="fa fa-search"></i></button>
@@ -41,7 +42,7 @@
             </div>
 
             <!-- Catalog Menus -->
-            <div class="row">
+            <div class="row px-4" style="border-top: 0.1px solid lightgray;">
             
                 <ul class="nav nav-pills qas-pills-tab mb-3 ml-3" id="pills-tab" role="tablist">
                     <li class="nav-item">
@@ -236,8 +237,6 @@
                 </div>
 
             </div>
-
-            
 
         </div>
 
