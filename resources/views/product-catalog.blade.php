@@ -6,11 +6,13 @@
 
     <div class="row">
 
-        <div class="col-md-3 col-lg-3">
-
-         @include('layouts.sidebar')
         
-        </div>
+
+        @if(Auth::user())
+        <div class="col-md-3 col-lg-3">
+         @include('layouts.sidebar')
+         </div>
+        @endif
 
         <div class="col-md-9 col-lg-9 m-0">
 

@@ -21,10 +21,8 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 
 Route::post('image-upload', 'AdminController@image_upload')->name('image-upload');
 
-Route::get('product-catalog', 'AdminController@product_catalog');
+Route::get('product-catalog', 'AdminController@product_catalog')->name('product-catalog');
 
-Route::get('products', 'AdminController@single_product');
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('products', 'AdminController@single_product')->name('products');
 
 Route::get('/home', 'HomeController@index')->name('home');
