@@ -222,3 +222,18 @@ div.ef-ruler .left{
 body{
     padding: 0rem;
 }
+
+.roger-btn-grey{
+    background: rgb(127, 127, 127);
+    color: white;
+}
+
+.roger-btn-grey:hover{
+    background: rgb(0, 0, 0);
+    color: white;
+}
+
+.uploader label#file-drag{
+    width: 520px;
+    height: 330px;
+}

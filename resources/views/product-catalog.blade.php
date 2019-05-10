@@ -68,12 +68,13 @@
                             <div class="row py-1 px-3">
                             
                             <!-- Jumbotron for photo upload form -->
-                            <div class="jumbotron">
+                            <div class="jumbotron px-5 w-100">
                                 <div class="col-12 text-left"><h4>Photos</h4></div>
                                 <div class="col-12 text-left"><p>Choose and upload a photo</p></div>
 
                                 <div class="col-12">
 
+                                    <!-- Alert error box -->
                                     <div class="row">
                                         <div class="col-12 my-3 d-flex">
                                             <div id="my-alert" class="alert alert-danger text-center w-100" style="display:none;"></div>
@@ -82,7 +83,8 @@
 
                                     <div class="row">
 
-                                        <div class="col-5">
+                                        <!-- Tips -->
+                                        <div class="col-4 pr-0">
                                             <h5>Tips</h5>
                                             <ul style="color:#5f6982;">
                                                 <li>Use high quality images for close up</li>
@@ -91,6 +93,7 @@
                                             </ul>
                                         </div>
 
+                                        <!-- Image upload alert -->
                                         <div class="col-7">
 
                                             
@@ -134,12 +137,15 @@
                                                         accept="image/*" 
                                                         style="display:none;">
                                                 
-                                                <label for="file-upload" id="file-drag" class="upload-input">
-                                                    <div id="start">
+                                                <label for="file-upload" 
+                                                       id="file-drag" 
+                                                       class="upload-input d-flex align-items-center">
+                                                    <div id="start" 
+                                                         class="d-flex flex-column justify-content-center align-items-center">
                                                         <i class="fa fa-camera" aria-hidden="true"></i>
                                                         <div>Add a photo</div>
                                                         
-                                                        <div class="progress">
+                                                        <div class="progress" style="height: 0px;">
                                                             <div class="progress-bar progress-bar-striped progress-bar-animated" 
                                                                  role="progressbar" 
                                                                  aria-valuenow="75" 
@@ -152,73 +158,64 @@
                                                 </label>
                                             </form>
                                         </div>
-                                        <!-- Sample checkbox -->
+
+                                        <!-- Checkbox( Display scale of measurement ) -->
                                         <div class="col-12 mb-1">
                                             <div class="row">
-                                                <div class="col-6 d-flex align-items-center">
+                                                <div class="col-6 offset-2 d-flex align-items-center justify-content-end">
                                                     <label for="show-input"><strong>Display scale of measurement</strong></label>
                                                 </div>
                                                 
-                                                <div class="col-6 d-flex justify-content-center align-items-center">
-                                                    <input type="checkbox" class="pull-right" name="show-input" id="show-custom-props" >
+                                                <div class="col-3 d-flex justify-content-center align-items-center">
+                                                    <input type="checkbox" name="show-input" id="show-custom-props" >
                                                 </div>
                                             </div>
+
+                                            <div class="row" id="custom-scale-props" style="display: flex; align-items: center; visibility: hidden;">
+
+                                                <!-- Rounded switch -->
+                                                <div class="col-6 offset-2 d-flex align-items-center justify-content-end">
+                                                    <span><strong> Choose scale unit </strong></span>
+                                                </div>
+                                                <div class="col-3 d-flex justify-content-center align-items-center">
+                                                    <span><em> (cm) </em></span>
+                                                    
+                                                    <label class="switch mx-2"> 
+                                                        <input type="checkbox" id="switch-checked">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    
+                                                    <span><em> (in) </em></span>
+                                                </div>
+
+                                                <div class="col-6 offset-2 d-flex align-items-center justify-content-end">
+                                                    <span><strong> Specify scale size </strong></span>
+                                                </div>
+
+
+                                                <!-- Custom value input field -->
+                                                <div class="col-3 d-flex justify-content-center">
+                                                <input type="text" 
+                                                        name="" 
+                                                        value="" 
+                                                        class="form-control" 
+                                                        max="30" 
+                                                        id="custom-value" 
+                                                        style="width: 60px">
+                                                </div>
+
+                                                </div>
                                         </div>
 
-                                        <div class="col-12 mt-1 mb-2" id="custom-scale-props" 
-                                            style="display: flex; align-items: center; visibility: hidden;">
                                             
-                                            <div class="row">
-
-                                                <div class="col-12">
-                                                    <div class="row">
-                                                        <!-- Rounded switch -->
-                                                        <div class="col-6">
-                                                            <span><strong> Choose scale unit </strong></span>
-                                                        </div>
-                                                        <div class="col-6 d-flex justify-content-center">
-                                                        <span><em> (cm) </em></span>
-                                                        
-                                                        <label class="switch mx-2"> 
-                                                            <input type="checkbox" id="switch-checked">
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                        
-                                                        <span><em> (in) </em></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        
-                                                <div class="col-12">
-
-                                                <div class="row">
-
-                                                    <div class="col-6">
-                                                        <span><strong> Specify scale size </strong></span>
-                                                    </div>
-
-
-                                                    <!-- Custom value input field -->
-                                                    <div class="col-6 d-flex justify-content-center">
-                                                    <input type="text" 
-                                                            name="" 
-                                                            value="" 
-                                                            class="form-control" 
-                                                            max="30" 
-                                                            id="custom-value" 
-                                                            style="width: 60px">
-                                                    </div>
-
-                                                </div>
-                                                </div>
-                                            </div>
+                                                 
                                         </div>
 
                                         <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
                                                     <button id='apply-settings'
                                                             type='button' 
-                                                            class='btn btn-primary w-50'>
+                                                            class='btn roger-btn-grey w-50'>
                                                             Apply
                                                     </button>
                                                 </div>
