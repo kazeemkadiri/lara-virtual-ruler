@@ -1,6 +1,7 @@
 var currentRulerValue = {
     unit: '',
     scaleValue: '',
+    tickBy: ''
 };
 
 // Intializes the ruler and hides it
@@ -37,17 +38,7 @@ function renderRuler() {
 
         addListenerForRulerTicksClick('.myruler');
         
-        $('.myruler .ef-ruler .ruler.top').css('width', '700px !important');
-
-        $('.tick').each( function(idx){
-
-            $(this).html( idx );
-
-            $(this).data('index', idx );
-
-            $(this).css( 'left',  idx === 0 ? '0px' : ( (idx * 23.33) + 'px') );
-
-        });
+        $('.myruler .ef-ruler .ruler.top').css('width', '520px !important');
 
         renderRulerTicksByInches(); // clones the cm ruler "ef-ruler" and appends to inches ruler "secondruler"
 
@@ -108,15 +99,25 @@ function renderTicksByCm() {
 
     getCmRuler( 'show' );
 
-    textileImageWidth = getNewCmWidth( currentRulerValue.scaleValue );
+    $('.myruler .tick').each( function(idx){
 
-    var imageContainer = $( '.image-container' );
+        $(this).html( idx );
 
-    imageContainer.css( 'width', textileImageWidth );
+        $(this).data('index', idx );
 
-    $( '.main-textile-image').css( 'width', textileImageWidth + '!important' );
+        $(this).css( 'left',  idx === 0 ? '0px' : ( (idx * getNewCmTickSpacing()) + 'px') );
 
-    imageContainer.css('transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 700 ) / 2 ) + 'px)' );
+    });
+
+    //textileImageWidth = getNewCmWidth( currentRulerValue.scaleValue );
+
+    //var imageContainer = $( '.image-container' );
+
+    //imageContainer.css( 'width', textileImageWidth );
+
+    //$( '#main-textile-image').css( 'width', textileImageWidth + ' !important' );
+
+    //imageContainer.css('transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 520 ) / 2 ) + 'px)' );
 }
 
 function addListenerForRulerTicksClick(rulerInstance) {
@@ -164,7 +165,7 @@ function renderTicksByInches() {
 
     $( '.main-textile-image').css( 'width', textileImageWidth + '!important' );
 
-    imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 700 ) / 2 ) + 'px)') ;
+    imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 520 ) / 2 ) + 'px)') ;
 }
 
 function getCmRuler( state ) {
@@ -295,9 +296,24 @@ function createElement( elementTitle ) {
 
 function setImageRulerAttributes( liImageItem ) {
 
-    currentRulerValue.unit = liImageItem[1].nodeValue;
-    currentRulerValue.scaleValue = liImageItem[2].nodeValue;
+    var _unit = currentRulerValue.unit = liImageItem[1].nodeValue;
+    var _scaleValue = currentRulerValue.scaleValue = liImageItem[2].nodeValue;
 
+    switch( _unit.trim() ){
+
+        case 'cm':
+            currentRulerValue.tickBy = getNewCmTickSpacing();
+        break;
+
+        case 'in':
+            currentRulerValue.tickBy = getNewInchesTickSpacing();
+        break;
+
+        default:
+        break;
+
+    }
+    
 }
 
 function detachLeftRuler() {
@@ -341,11 +357,17 @@ function setNewWidthForImageContainer( tickSelected ) {
 
     imageContainer.css( 'width', newWidth);     
     
-    // console.log('changing width of container', newWidth, (( stripPxFromValue(newWidth) - 700 ) / 2 ))
+    // console.log('changing width of container', newWidth, (( stripPxFromValue(newWidth) - 520 ) / 2 ))
     
-    imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(newWidth) - 700 ) / 2 ) + 'px)') ;
+    imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(newWidth) - 520 ) / 2 ) + 'px)') ;
 
     return;
+
+}
+
+function getNewCmTickSpacing() {
+
+    return ( 520 / currentRulerValue.scaleValue );
 
 }
 
@@ -353,7 +375,7 @@ function getNewCmWidth( selectedRulerValue ) {
 
     if(selectedRulerValue === 0) return;
 
-    return ( 23.333 * selectedRulerValue ) + 'px';
+    return ( 17.333 * selectedRulerValue ) + 'px';
 
 }
 
@@ -361,7 +383,7 @@ function getNewInchesWidth( selectedRulerValue ) {
 
     if(selectedRulerValue === 0) return;
 
-    return ( 3.80 * selectedRulerValue ) + 'px';
+    return ( 2.82 * selectedRulerValue ) + 'px';
 
 }
 
@@ -379,7 +401,7 @@ function convertToPercentageForWidthScaling() {
         if(selectedRulerValue === 30 
             || selectedRulerValue === 0 ) return initial;
 
-        return ( ( ( 700 - ( selectedRulerValue * 23.333 ) ) / 700 ) );
+        return ( ( ( 520 - ( selectedRulerValue * 23.333 ) ) / 520 ) );
 
     }
 
@@ -388,9 +410,9 @@ function convertToPercentageForWidthScaling() {
     //     if(selectedRulerValue === 30 
     //         || selectedRulerValue === 0 ) return initial;
 
-    //     return ( ( ( 700 - ( selectedRulerValue * 23.333 ) ) / 700 ) * 100 );
+    //     return ( ( ( 520 - ( selectedRulerValue * 23.333 ) ) / 520 ) * 100 );
 
-    //     // return ( (percentageDifference * 700) / 100) + ((selectedRulerValue * 77) / 29 ) + '%';
+    //     // return ( (percentageDifference * 520) / 100) + ((selectedRulerValue * 77) / 29 ) + '%';
 
     // }
 

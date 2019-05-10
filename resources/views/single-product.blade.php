@@ -47,25 +47,25 @@
                             <div class="row">
                                 
                                 <div class="col-12 px-0 d-flex align-items-start justify-content-center" 
-                                     style="max-width: 700px !important;
-                                            min-width: 699px !important;
-                                            min-height: 599px !important;
-                                            max-height: 600px !important; 
+                                     style="max-width: 520px !important;
+                                            min-width: 519px !important;
+                                            min-height: 329px !important;
+                                            max-height: 330px !important; 
                                             box-shadow: 2px 1px 9px 2px rgba(0,0,1,0.2);
                                             overflow:hidden;">
 
                                     <div class="image-container d-flex justify-content-start" 
-                                         style="max-width:700px !important;
-                                                max-height: 600px !important;
-                                                width: 699px;
-                                                height: 599px;
+                                         style="max-width:520px !important;
+                                                max-height: 330px !important;
+                                                width: 519px;
+                                                height: 329px;
                                                 overflow-x: scroll;
                                                 overflow-y: auto;
                                                 position:relative">
 
                                         <img src="{{ count($textileImages) > 0 ? $textileImages[0] -> name : '' }}" 
                                             id="main-textile-image" 
-                                            style="width: 699px !important;
+                                            style="width: 520px;
                                                    height: auto; 
                                                    position: relative;" 
                                             alt="Textile image" />
@@ -87,7 +87,7 @@
 
                                 <!-- All textile images thumbnail are presented here -->
                                 <div class="col-12 mt-3" 
-                                     style="width:699px !important; flex-basis:initial;">  
+                                     style="width:520px !important; flex-basis:initial;">  
 
                                     <nav aria-label="Page navigation example" 
                                          class="d-flex justify-content-center" 
