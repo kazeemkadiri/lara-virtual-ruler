@@ -26,9 +26,8 @@ function renderRuler() {
 
     $('.myruler').ruler({
         unit: 'cm',
-        tickMajor: 10,
-        tickMinor: 5,
-        tickMicro: 1
+        tickMajor: 4,
+        tickMinor: 2
     });
 
     setTimeout( function() {
@@ -99,16 +98,16 @@ function renderTicksByCm() {
     getInchesRuler( 'hide' );
 
     getCmRuler( 'show' );
-
     
     var _cmRulerTickSpacing = currentRulerValue.isGreaterThanOrEqual11cm ? 
                                 getNewCmTickSpacing()
                                 : getNewCmTickSpacingForLessThan11cm();
 
+    appendTickNumbersForCmRuler();
 
     $('.myruler .tick').each( function(idx){
 
-        $(this).html( idx );
+        // $(this).html();
 
         $(this).data('index', idx );
 
@@ -127,6 +126,25 @@ function renderTicksByCm() {
     //$( '#main-textile-image').css( 'width', textileImageWidth + ' !important' );
 
     //imageContainer.css('transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 520 ) / 2 ) + 'px)' );
+}
+
+function appendTickNumbersForCmRuler() {
+
+    $('.myruler .ef-ruler').append('<div class="tick-numbering" style="width:100%;"></div>');
+
+    var _tickBy = currentRulerValue.tickBy.toFixed(3);
+    var _isGreaterThan11cm = currentRulerValue.isGreaterThanOrEqual11cm;
+
+    for(var i = 0; i <= Math.ceil(currentRulerValue.scaleValue * 2); i+=2 ) {
+
+        //if(_isGreaterThan11cm && (i % 2 === 1)) continue;
+
+        $('.myruler .ef-ruler .tick-numbering')
+        .append('<span class="tick-number" style="left:'+ (i * _tickBy) +'px;">'+ ( i / 2 ) +'</span>');
+
+    }
+    
+
 }
 
 function addListenerForRulerTicksClick(rulerInstance) {
@@ -339,6 +357,8 @@ function translateTicksDown( rulerInstance ){
 
     //Sets the new tick values and brings them down by their height values
     $( rulerInstance + ' .tick' ).each( function(idx){
+
+        $(this).text(''); 
 
         $(this).css('transform', 'translateY('+ $(this).css('height') +')');
 

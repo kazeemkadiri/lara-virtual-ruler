@@ -111,7 +111,7 @@ font-weight: bold;
 div.myruler, div.second-ruler{
     width: 700px !important;
     position: relative;
-    height: 50px;
+    height: 60px;
     border: 1px solid grey;
 }
 div.ef-ruler, .inches-ruler{
@@ -127,7 +127,7 @@ div.ef-ruler .left{
 
 .ef-ruler, .inches-ruler.show{
     overflow: hidden !important;
-    height: 50px !important;
+    height: 60px !important;
     border-bottom: 1px solid #212529;
     border-right: 1px solid #212529;
     border-left: 1px solid #212529;
@@ -236,4 +236,15 @@ body{
 .uploader label#file-drag{
     width: 520px;
     height: 330px;
+}
+
+div.tick-numbering{
+    width: 100%;
+    position: absolute;
+    top: 12px;
+}
+
+.tick-number{
+    position: absolute;
+    margin-left: -7px;
 }
