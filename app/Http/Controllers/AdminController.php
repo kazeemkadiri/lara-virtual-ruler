@@ -40,8 +40,7 @@ class AdminController extends Controller
 
         $responseMsg = '';
 
-        if( ! $req -> hasFile( 'textile_image' ) 
-            || ! $req->file( 'textile_image' )->isValid()) {
+        if( ! $req -> hasFile( 'textile_image' ) ) {
 
             $responseMsg = 'No file found';
 
@@ -51,9 +50,17 @@ class AdminController extends Controller
 
         }
 
-        $path = $req->file('textile_image')->store('textile-images', 'public');
+        foreach ($req->textile_image as $textileImage) {
+            
+            $path = $textileImage->store('textile-images', 'public');
+            
+            $responseMsg = $path ? $this -> store_data_in_db( $req, $path ) : 'failed';
 
-        $responseMsg = $path ? $this -> store_data_in_db( $req, $path ) : 'failed';
+        }
+
+        //$path = $req->file('textile_image')->store('textile-images', 'public');
+
+        //$responseMsg = $path ? $this -> store_data_in_db( $req, $path ) : 'failed';
 
         session()->flash('textile-image-upload-response', $responseMsg );
 
@@ -68,7 +75,7 @@ class AdminController extends Controller
                 'user_id' => Auth::user()->id,
                 'scale_value' => $req->scale_value,
                 'scale_unit' => $req->scale_unit
-            ])-> wasRecentlyCreated ? 'success' : 'failed';
+            ])->wasRecentlyCreated ? 'success' : 'failed';
 
     }
 

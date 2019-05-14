@@ -133,8 +133,9 @@
 
                                                 <input id="textile_image" 
                                                         type="file" 
-                                                        name="textile_image" 
-                                                        accept="image/*" 
+                                                        name="textile_image[]" 
+                                                        accept="image/*"
+                                                        multiple
                                                         style="display:none;">
                                                 
                                                 <label for="file-upload" 
