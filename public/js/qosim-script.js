@@ -1,7 +1,8 @@
 var currentRulerValue = {
     unit: '',
     scaleValue: '',
-    tickBy: ''
+    tickBy: '',
+    isGreaterThanOrEqual11cm: false,
 };
 
 // Intializes the ruler and hides it
@@ -99,13 +100,21 @@ function renderTicksByCm() {
 
     getCmRuler( 'show' );
 
+    
+    var _cmRulerTickSpacing = currentRulerValue.isGreaterThanOrEqual11cm ? 
+                                getNewCmTickSpacing()
+                                : getNewCmTickSpacingForLessThan11cm();
+
+
     $('.myruler .tick').each( function(idx){
 
         $(this).html( idx );
 
         $(this).data('index', idx );
 
-        $(this).css( 'left',  idx === 0 ? '0px' : ( (idx * getNewCmTickSpacing()) + 'px') );
+        $(this).css( 'left',  idx === 0 ? '0px' : ( ( idx * _cmRulerTickSpacing ) + 'px') );
+
+        $(this).addClass( ( idx % 2 === 0 ) ? 'major' : 'micro');
 
     });
 
@@ -299,10 +308,12 @@ function setImageRulerAttributes( liImageItem ) {
     var _unit = currentRulerValue.unit = liImageItem[1].nodeValue;
     var _scaleValue = currentRulerValue.scaleValue = liImageItem[2].nodeValue;
 
+    var tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual11cm = ( _scaleValue >= 11 );
+
     switch( _unit.trim() ){
 
         case 'cm':
-            currentRulerValue.tickBy = getNewCmTickSpacing();
+            currentRulerValue.tickBy = tempScaleValueGreaterBoolean ? getNewCmTickSpacing(): getNewCmTickSpacingForLessThan11cm();
         break;
 
         case 'in':
@@ -376,6 +387,12 @@ function getNewCmWidth( selectedRulerValue ) {
     if(selectedRulerValue === 0) return;
 
     return ( 17.333 * selectedRulerValue ) + 'px';
+
+}
+
+function getNewCmTickSpacingForLessThan11cm () {
+
+    return ( 520 / ( currentRulerValue.scaleValue * 2 ) );
 
 }
 
