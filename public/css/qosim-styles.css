@@ -233,9 +233,20 @@ body{
     color: white;
 }
 
+.textile-image-uploaded.uploader #start i.fa{
+    font-size: 36px;
+    margin-bottom: 0.5rem;
+}
+
 .uploader label#file-drag{
     width: 520px;
     height: 330px;
+}
+
+form.textile-image-uploaded label{
+    width: 100% !important;
+    height: 100% !important;
+    padding: 1rem 0.5rem;
 }
 
 div.tick-numbering{
@@ -248,3 +259,5 @@ div.tick-numbering{
     position: absolute;
     margin-left: -7px;
 }
+
+    

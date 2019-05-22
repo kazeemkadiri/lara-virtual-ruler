@@ -40,6 +40,9 @@ class AdminController extends Controller
 
         $responseMsg = '';
 
+        $uploaded_images_path = session()->get( 'textile-images-uploaded' ) !== null 
+                                ? session()->get( 'textile-images-uploaded' ) : array();
+                                
         if( ! $req -> hasFile( 'textile_image' ) ) {
 
             $responseMsg = 'No file found';
@@ -51,18 +54,16 @@ class AdminController extends Controller
         }
 
         foreach ($req->textile_image as $textileImage) {
-            
+
             $path = $textileImage->store('textile-images', 'public');
             
             $responseMsg = $path ? $this -> store_data_in_db( $req, $path ) : 'failed';
 
+            if( $responseMsg === 'success' ) $uploaded_images_path[] = 'storage/' . $path;
+
         }
 
-        //$path = $req->file('textile_image')->store('textile-images', 'public');
-
-        //$responseMsg = $path ? $this -> store_data_in_db( $req, $path ) : 'failed';
-
-        session()->flash('textile-image-upload-response', $responseMsg );
+        session()->put( 'textile-images-uploaded', $uploaded_images_path ); 
 
         return redirect()->back();
 
