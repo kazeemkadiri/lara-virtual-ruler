@@ -260,4 +260,13 @@ div.tick-numbering{
     margin-left: -7px;
 }
 
-    
+.upload-image-thumbnail{
+    overflow: hidden;
+    height: 6vw;
+    align-items: center;
+    display: flex;
+    border: 1px solid rgba(0,0,0, 0.1);
+    padding: 0.2em;
+    margin-right: 0.6vw;
+    background: white;
+}
