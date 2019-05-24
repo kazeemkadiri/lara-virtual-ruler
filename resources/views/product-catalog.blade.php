@@ -94,7 +94,7 @@
                                         </div>
 
                                         <!-- Image upload alert -->
-                                        <div class="col-8">
+                                        <div class="col-9">
 
                                             
 
@@ -120,7 +120,7 @@
 
                                                 <!-- Lists the thumbnail of the images uploaded -->
                                      
-                                                <div class="row">
+                                                <div class="row justify-content-center">
 
                                                     @foreach( $uploaded_textile_images_path as $textile_image_path )
 
@@ -249,64 +249,67 @@
                                         <!-- Checkbox( Display scale of measurement ) -->
                                         <div class="col-12 mb-1">
                                             <div class="row">
-                                                <div class="col-6 offset-2 d-flex align-items-center justify-content-end">
-                                                    <label for="show-input"><strong>Display scale of measurement</strong></label>
+
+                                                <div class="col-9 offset-3">
+                                                    <div class="row">
+                                                        <div class="col-6 d-flex align-items-center justify-content-end">
+                                                            <label for="show-input"><strong>Display scale of measurement</strong></label>
+                                                        </div>
+                                                        <div class="col-3 offset-1 d-flex justify-content-center align-items-center">
+                                                            <input type="checkbox" name="show-input" id="show-custom-props" >
+                                                        </div>
+                                                    </div>    
+                                                </div>
+
+                                                <div class="row col-9 offset-3" id="custom-scale-props" style="display: flex; align-items: center; visibility: hidden;">
+
+                                                    <!-- Rounded switch -->
+                                                    <div class="col-6 my-2 d-flex align-items-center justify-content-end">
+                                                        <span><strong> Choose scale unit </strong></span>
+                                                    </div>
+                                                    <div class="col-3 offset-1 d-flex justify-content-center align-items-center">
+                                                        <span><em> (cm) </em></span>
+                                                        
+                                                        <label class="switch mx-2"> 
+                                                            <input type="checkbox" id="switch-checked">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        
+                                                        <span><em> (in) </em></span>
+                                                    </div>
+
+                                                    <div class="col-6 d-flex align-items-center justify-content-end">
+                                                        <span><strong> Specify scale size </strong></span>
+                                                    </div>
+
+
+                                                    <!-- Custom value input field -->
+                                                    <div class="col-3 offset-1 d-flex justify-content-center align-items-center">
+                                                        <input type="text" 
+                                                                name="" 
+                                                                value="" 
+                                                                class="form-control ml-2" 
+                                                                max="30" 
+                                                                id="custom-value" 
+                                                                style="width: 44px">
+                                                    </div>
+
                                                 </div>
                                                 
-                                                <div class="col-3 d-flex justify-content-center align-items-center">
-                                                    <input type="checkbox" name="show-input" id="show-custom-props" >
-                                                </div>
                                             </div>
-
-                                            <div class="row" id="custom-scale-props" style="display: flex; align-items: center; visibility: hidden;">
-
-                                                <!-- Rounded switch -->
-                                                <div class="col-6 offset-2 d-flex align-items-center justify-content-end">
-                                                    <span><strong> Choose scale unit </strong></span>
-                                                </div>
-                                                <div class="col-3 d-flex justify-content-center align-items-center">
-                                                    <span><em> (cm) </em></span>
-                                                    
-                                                    <label class="switch mx-2"> 
-                                                        <input type="checkbox" id="switch-checked">
-                                                        <span class="slider round"></span>
-                                                    </label>
-                                                    
-                                                    <span><em> (in) </em></span>
-                                                </div>
-
-                                                <div class="col-6 offset-2 d-flex align-items-center justify-content-end">
-                                                    <span><strong> Specify scale size </strong></span>
-                                                </div>
-
-
-                                                <!-- Custom value input field -->
-                                                <div class="col-3 d-flex justify-content-center">
-                                                <input type="text" 
-                                                        name="" 
-                                                        value="" 
-                                                        class="form-control" 
-                                                        max="30" 
-                                                        id="custom-value" 
-                                                        style="width: 60px">
-                                                </div>
-
-                                                </div>
                                         </div>
-
-                                            
                                                  
                                         </div>
 
                                         <div class="row">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button id='apply-settings'
-                                                            type='button' 
-                                                            class='btn roger-btn-grey w-50'>
-                                                            Apply
-                                                    </button>
-                                                </div>
+                                            <div class="col-9 offset-3 d-flex justify-content-center">
+                                                <button id='apply-settings'
+                                                        type='button' 
+                                                        class='btn roger-btn-grey w-50'>
+                                                        Apply
+                                                </button>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                                 </div>

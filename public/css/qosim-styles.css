@@ -267,7 +267,7 @@ div.tick-numbering{
     display: flex;
     border: 1px solid rgba(0,0,0, 0.1);
     padding: 0.2em;
-    margin-right: 0.8vw;
+    margin-right: 0vw;
     background: white;
 }
 
