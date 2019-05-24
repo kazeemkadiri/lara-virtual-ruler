@@ -68,7 +68,7 @@
                             <div class="row py-1 px-3">
                             
                             <!-- Jumbotron for photo upload form -->
-                            <div class="jumbotron px-5 w-100">
+                            <div class="jumbotron px-5 w-100 bg-white qas-box-shadow">
                                 <div class="col-12 text-left"><h4>Photos</h4></div>
                                 <div class="col-12 text-left"><p>Choose and upload a photo</p></div>
 
@@ -84,7 +84,7 @@
                                     <div class="row">
 
                                         <!-- Tips -->
-                                        <div class="col-4 pr-0">
+                                        <div class="col-3 pr-0">
                                             <h5>Tips</h5>
                                             <ul style="color:#5f6982;">
                                                 <li>Use high quality images for close up</li>
@@ -94,7 +94,7 @@
                                         </div>
 
                                         <!-- Image upload alert -->
-                                        <div class="col-7">
+                                        <div class="col-8">
 
                                             
 
@@ -131,7 +131,7 @@
 
                                                             @if( $counter  === count($uploaded_textile_images_path) )
 
-                                                            <div class="col-md-2 col-lg-2 upload-image-thumbnail">
+                                                            <div class="col-md-2 col-lg-2 upload-image-thumbnail uploader-enclosing-div">
 
                                                                 <!-- Form for image upload -->
                                                                 <form  id="textile-image-uploader" 

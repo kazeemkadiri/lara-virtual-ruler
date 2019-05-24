@@ -267,6 +267,34 @@ div.tick-numbering{
     display: flex;
     border: 1px solid rgba(0,0,0, 0.1);
     padding: 0.2em;
-    margin-right: 0.6vw;
+    margin-right: 0.8vw;
     background: white;
+}
+
+.upload-image-thumbnail .uploader div{
+    font-size: 12px;
+}
+
+.qas-box-shadow{
+    box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.1);
+}
+
+.upload-image-thumbnail .uploader label {
+    border: none;
+}
+
+.uploader-enclosing-div:hover {
+    border: 3px solid #eee;
+}
+
+form.textile-image-uploaded label {
+    padding: 0rem;
+}
+
+.textile-image-uploaded.uploader #start i.fa{
+    font-size: 22px;
+}
+
+label{
+    margin-bottom: 0rem;
 }
