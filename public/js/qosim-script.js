@@ -523,12 +523,44 @@ function convertToPercentageForWidthScaling() {
         $('#scale-value').val();
     }
 
+    function changeFaIcon( iconClassToRemove, iconClassToAdd  ) {
+
+        console.log('called');
+
+        var faIcon = useDOMElement('i.fa' + iconClassToRemove);
+        
+        faIcon.classList.remove( iconClassToRemove.replace('.', '') );
+
+        faIcon.classList.add( iconClassToAdd );
+
+    }
+
+    function validateImageSelectedCountLessThanOrEquals5( uploaderElement ) {
+
+        if( uploaderElement.files.length > 5 ) {
+
+            alert( 'You can upload only a maximum of (5) files' );
+
+            uploaderElement.value = '';
+
+            useDOMElement('#textile_image').click();
+
+        }
+
+    }
+
+    var iconCheckInUse = false;
+
     useDOMElement('#textile_image').addEventListener('change', function(){
 
-        var faIcon = useDOMElement('.fa.fa-camera');
-        faIcon.classList.remove('fa-camera');
+        if( ! iconCheckInUse ) {
+            
+            changeFaIcon( '.fa-camera', 'fa-check'  );
 
-        faIcon.classList.add('fa-check');
+            iconCheckInUse = true;
+        }
+
+        validateImageSelectedCountLessThanOrEquals5( this );
 
     });
 

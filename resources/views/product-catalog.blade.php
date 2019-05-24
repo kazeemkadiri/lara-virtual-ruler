@@ -98,148 +98,151 @@
 
                                             
 
-                                            @php $uploadResponse = session() -> pull( 'textile-image-upload-response' ) @endphp
+                                            <!-- This gets the list of paths of uploaded images -->
+                                            @php  
+                                            
+                                                $uploaded_textile_images_path = session()->get( 'textile-images-uploaded' ); 
+                                        
+                                                $images_uploaded = is_array($uploaded_textile_images_path) ? (bool) count($uploaded_textile_images_path) : false;
 
-                                            @if ( isset( $uploadResponse ) )
+                                                $counter = 0;  
+                                            
+                                            @endphp
 
-                                                <div class="alert 
-                                                    {{ $uploadResponse === 'success' ? 'alert-success' : 'alert-danger' }}" >
+                                            @if ( $images_uploaded )
+
+                                                <div class="alert {{ $images_uploaded ? 'alert-success' : 'alert-danger' }}" >
                                                 
-                                                    <strong> Image upload {{ $uploadResponse === 'success' ? 'was successful' : 'failed' }} </strong>
+                                                    <strong> Image upload(s) {{ $images_uploaded ? 'was successful' : 'failed' }} </strong>
 
                                                 </div>
 
-                                            @endif
 
-
-                                            <!-- This gets the list of paths of uploaded images -->
-                                            @php  $uploaded_textile_images_path = session()->get( 'textile-images-uploaded' ); $counter = 0;  @endphp
+                                                <!-- Lists the thumbnail of the images uploaded -->
                                      
-                                                @if( is_array($uploaded_textile_images_path) )
+                                                <div class="row">
 
-                                                    <div class="row">
+                                                    @foreach( $uploaded_textile_images_path as $textile_image_path )
 
-                                                        @foreach( $uploaded_textile_images_path as $textile_image_path )
+                                                        @php  ++$counter  @endphp 
 
-                                                            @php  ++$counter  @endphp 
+                                                        <div class="col-md-2 col-lg-2 upload-image-thumbnail">
 
-                                                            <div class="col-md-2 col-lg-2 upload-image-thumbnail">
+                                                            <img class="img-fluid" src="{{ $textile_image_path }}"/>
 
-                                                                <img class="img-fluid" src="{{ $textile_image_path }}"/>
+                                                        </div>
 
-                                                            </div>
+                                                        @if( $counter  === count($uploaded_textile_images_path) )
 
-                                                            @if( $counter  === count($uploaded_textile_images_path) )
+                                                        <div class="col-md-2 col-lg-2 upload-image-thumbnail uploader-enclosing-div">
 
-                                                            <div class="col-md-2 col-lg-2 upload-image-thumbnail uploader-enclosing-div">
-
-                                                                <!-- Form for image upload -->
-                                                                <form  id="textile-image-uploader" 
-                                                                        method='post' 
-                                                                        enctype="multipart/form-data"
-                                                                        class="textile-image-uploaded uploader" 
-                                                                        action='{{ route("image-upload") }}'>
-                                                                    
-                                                                    {{ csrf_field() }}
-                                                                    
-                                                                    <input type='text' 
-                                                                            id='scale-unit' 
-                                                                            name='scale_unit'
-                                                                            value='cm'
-                                                                            style='display:none;'>
-
-                                                                    <input type='text' 
-                                                                            id='scale-value' 
-                                                                            name='scale_value'
-                                                                            style='display:none;'>
-
-                                                                    <input id="textile_image" 
-                                                                            type="file" 
-                                                                            name="textile_image[]" 
-                                                                            accept="image/*"
-                                                                            multiple
-                                                                            style="display:none;">
-                                                                    
-                                                                    <label for="file-upload" 
-                                                                        id="file-drag" 
-                                                                        class="upload-input d-flex align-items-center">
-                                                                        <div id="start" 
-                                                                            class="d-flex flex-column justify-content-center align-items-center">
-                                                                            <i class="fa fa-camera" aria-hidden="true"></i>
-                                                                            <div>Add a photo</div>
-                                                                            
-                                                                            <div class="progress" style="height: 0px;">
-                                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                                                                                    role="progressbar" 
-                                                                                    aria-valuenow="75" 
-                                                                                    aria-valuemin="0" 
-                                                                                    aria-valuemax="100" 
-                                                                                    style="width: 100%; height: 0px;"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                        </div>
-                                                                    </label>
-                                                                </form>
-
-                                                            </div>
-
-                                                            @endif
-
-                                                        @endforeach
-
-                                                    </div>
-
-                                                @else
-
-                                                    <!-- Form for image upload -->
-                                                    <form  id="textile-image-uploader" 
-                                                            method='post' 
-                                                            enctype="multipart/form-data"
-                                                            class="uploader" 
-                                                            action='{{ route("image-upload") }}'>
-                                                        
-                                                        {{ csrf_field() }}
-                                                        
-                                                        <input type='text' 
-                                                                id='scale-unit' 
-                                                                name='scale_unit'
-                                                                value='cm'
-                                                                style='display:none;'>
-
-                                                        <input type='text' 
-                                                                id='scale-value' 
-                                                                name='scale_value'
-                                                                style='display:none;'>
-
-                                                        <input id="textile_image" 
-                                                                type="file" 
-                                                                name="textile_image[]" 
-                                                                accept="image/*"
-                                                                multiple
-                                                                style="display:none;">
-                                                        
-                                                        <label for="file-upload" 
-                                                            id="file-drag" 
-                                                            class="upload-input d-flex align-items-center">
-                                                            <div id="start" 
-                                                                class="d-flex flex-column justify-content-center align-items-center">
-                                                                <i class="fa fa-camera" aria-hidden="true"></i>
-                                                                <div>Add a photo</div>
+                                                            <!-- Form for image upload -->
+                                                            <form  id="textile-image-uploader" 
+                                                                    method='post' 
+                                                                    enctype="multipart/form-data"
+                                                                    class="textile-image-uploaded uploader" 
+                                                                    action='{{ route("image-upload") }}'>
                                                                 
-                                                                <div class="progress" style="height: 0px;">
-                                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
-                                                                        role="progressbar" 
-                                                                        aria-valuenow="75" 
-                                                                        aria-valuemin="0" 
-                                                                        aria-valuemax="100" 
-                                                                        style="width: 100%; height: 0px;"></div>
-                                                                </div>
-                                                            </div>
-                                                            </div>
-                                                        </label>
-                                                    </form>
+                                                                {{ csrf_field() }}
+                                                                
+                                                                <input type='text' 
+                                                                        id='scale-unit' 
+                                                                        name='scale_unit'
+                                                                        value='cm'
+                                                                        style='display:none;'>
 
-                                                @endif
+                                                                <input type='text' 
+                                                                        id='scale-value' 
+                                                                        name='scale_value'
+                                                                        style='display:none;'>
+
+                                                                <input id="textile_image" 
+                                                                        type="file" 
+                                                                        name="textile_image[]" 
+                                                                        accept="image/*"
+                                                                        multiple
+                                                                        style="display:none;">
+                                                                
+                                                                <label for="file-upload" 
+                                                                    id="file-drag" 
+                                                                    class="upload-input d-flex align-items-center">
+                                                                    <div id="start" 
+                                                                        class="d-flex flex-column justify-content-center align-items-center">
+                                                                        <i class="fa fa-camera" aria-hidden="true"></i>
+                                                                        <div>Add a photo</div>
+                                                                        
+                                                                        <div class="progress" style="height: 0px;">
+                                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                                                role="progressbar" 
+                                                                                aria-valuenow="75" 
+                                                                                aria-valuemin="0" 
+                                                                                aria-valuemax="100" 
+                                                                                style="width: 100%; height: 0px;"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    </div>
+                                                                </label>
+                                                            </form>
+
+                                                        </div>
+
+                                                        @endif
+
+                                                    @endforeach
+
+                                                </div>
+
+                                            @else
+
+                                                <!-- Form for image upload -->
+                                                <form  id="textile-image-uploader" 
+                                                        method='post' 
+                                                        enctype="multipart/form-data"
+                                                        class="uploader" 
+                                                        action='{{ route("image-upload") }}'>
+                                                    
+                                                    {{ csrf_field() }}
+                                                    
+                                                    <input type='text' 
+                                                            id='scale-unit' 
+                                                            name='scale_unit'
+                                                            value='cm'
+                                                            style='display:none;'>
+
+                                                    <input type='text' 
+                                                            id='scale-value' 
+                                                            name='scale_value'
+                                                            style='display:none;'>
+
+                                                    <input id="textile_image" 
+                                                            type="file" 
+                                                            name="textile_image[]" 
+                                                            accept="image/*"
+                                                            multiple
+                                                            style="display:none;">
+                                                    
+                                                    <label for="file-upload" 
+                                                        id="file-drag" 
+                                                        class="upload-input d-flex align-items-center">
+                                                        <div id="start" 
+                                                            class="d-flex flex-column justify-content-center align-items-center">
+                                                            <i class="fa fa-camera" aria-hidden="true"></i>
+                                                            <div>Add a photo</div>
+                                                            
+                                                            <div class="progress" style="height: 0px;">
+                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                                    role="progressbar" 
+                                                                    aria-valuenow="75" 
+                                                                    aria-valuemin="0" 
+                                                                    aria-valuemax="100" 
+                                                                    style="width: 100%; height: 0px;"></div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </label>
+                                                </form>
+
+                                            @endif
                                             
                                         </div>
 
