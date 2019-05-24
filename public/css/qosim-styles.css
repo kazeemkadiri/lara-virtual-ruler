@@ -136,7 +136,9 @@ div.ef-ruler .left{
 
 .ruler-col-container{
     height: auto;
-    width: 520px !important;
+    width: 540px !important;
+    display: flex;
+    margin-left: -20px;
 }
 
 .ef-ruler .top, .inches-ruler .top{
@@ -315,4 +317,9 @@ label{
 
 li.textile-thumbnail{
     margin-right: .25rem !important;
+}
+
+.scale-type-indicator{
+    border: 2px solid rgb(0,0,0);
+    border-right: none;
 }
