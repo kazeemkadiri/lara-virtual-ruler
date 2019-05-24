@@ -135,14 +135,14 @@ function appendTickNumbersForCmRuler() {
     $('.myruler .ef-ruler').append('<div class="tick-numbering" style="width:100%;"></div>');
 
     var _tickBy = currentRulerValue.tickBy.toFixed(3);
-    var _isGreaterThan11cm = currentRulerValue.isGreaterThanOrEqual11cm;
+   // var _isGreaterThan11cm = currentRulerValue.isGreaterThanOrEqual11cm;
 
-    for(var i = 0; i <= Math.ceil(currentRulerValue.scaleValue * 2); i+=2 ) {
+    for(var i = 0; i <= Math.ceil(currentRulerValue.scaleValue * 2); i++ ) {
 
         //if(_isGreaterThan11cm && (i % 2 === 1)) continue;
 
         $('.myruler .ef-ruler .tick-numbering')
-        .append('<span class="tick-number" style="left:'+ (i * _tickBy) +'px;">'+ ( i / 2 ) +'</span>');
+        .append('<span class="tick-number" style="left:'+ (i * _tickBy) + 5 +'px;">' + i + '</span>');
 
     }
     

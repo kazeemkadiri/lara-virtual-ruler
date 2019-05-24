@@ -113,6 +113,7 @@ div.myruler, div.second-ruler{
     position: relative;
     height: 60px;
     border: 1px solid grey;
+    border-left: none;
 }
 div.ef-ruler, .inches-ruler{
     position: relative;
@@ -130,13 +131,13 @@ div.ef-ruler .left{
     height: 60px !important;
     border-bottom: 1px solid #212529;
     border-right: 1px solid #212529;
-    border-left: 1px solid #212529;
+    border-left: none;
 }
 
 
 .ruler-col-container{
     height: auto;
-    width: 540px !important;
+    width: 560px !important;
     display: flex;
     margin-left: -20px;
 }
