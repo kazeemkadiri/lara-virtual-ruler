@@ -40,8 +40,7 @@ class AdminController extends Controller
 
         $responseMsg = '';
 
-        $uploaded_images_path = session()->get( 'textile-images-uploaded' ) !== null 
-                                ? session()->get( 'textile-images-uploaded' ) : array();
+        $uploaded_images_path = array();
                                 
         if( ! $req -> hasFile( 'textile_image' ) ) {
 
