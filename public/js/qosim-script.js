@@ -28,17 +28,17 @@ function renderRuler() {
         unit: 'cm',
         tickMajor: 4,
         tickMinor: 2
-    });
+    }); // Creates a cm based ruler 
 
     setTimeout( function() {
-
-        translateTicksDown( '.myruler' );
 
         addRulerScalingInfoInsideRuler( '.myruler', 'Centimeters(cm)', 'cm');
 
         addListenerForRulerTicksClick('.myruler');
         
         $('.myruler .ef-ruler .ruler.top').css('width', '520px !important');
+
+        //All above applies only to cm ruler
 
         renderRulerTicksByInches(); // clones the cm ruler "ef-ruler" and appends to inches ruler "secondruler"
 
@@ -107,25 +107,27 @@ function renderTicksByCm() {
 
     $('.myruler .tick').each( function(idx){
 
-        // $(this).html();
-
-        $(this).data('index', idx );
+        $(this).attr('index', idx );
 
         $(this).css( 'left',  idx === 0 ? '0px' : ( ( idx * _cmRulerTickSpacing ) + 'px') );
 
-        $(this).addClass( ( idx % 2 === 0 ) ? 'major' : 'micro');
+        if( currentRulerValue.isGreaterThanOrEqual11cm ){
+
+            $( this ).removeClass( 'minor' ).addClass( 'major' );
+
+        }
+        
 
     });
 
-    //textileImageWidth = getNewCmWidth( currentRulerValue.scaleValue );
+    translateTicksDown( '.myruler' );
 
-    //var imageContainer = $( '.image-container' );
+}
 
-    //imageContainer.css( 'width', textileImageWidth );
+function getNewCmTickSpacing() {
 
-    //$( '#main-textile-image').css( 'width', textileImageWidth + ' !important' );
+    return ( 520 / currentRulerValue.scaleValue );
 
-    //imageContainer.css('transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 520 ) / 2 ) + 'px)' );
 }
 
 function appendTickNumbersForCmRuler() {
@@ -393,12 +395,6 @@ function setNewWidthForImageContainer( tickSelected ) {
     imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(newWidth) - 520 ) / 2 ) + 'px)') ;
 
     return;
-
-}
-
-function getNewCmTickSpacing() {
-
-    return ( 520 / currentRulerValue.scaleValue );
 
 }
 
