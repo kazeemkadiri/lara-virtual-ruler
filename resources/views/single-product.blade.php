@@ -16,7 +16,7 @@
 
             <div class="row">
             
-                <div class="col-4 px-0 text-left"><h2> Product </h2></div>
+                <div class="col-4 px-0 ml-4 mt-2 text-left"><h2> Product </h2></div>
             
             </div>
 
@@ -40,11 +40,11 @@
 
                     <div class="row">
             
-                       <div class="col-12 text-left"><h3>Qosim's pattern design</h3></div>
+                       <div class="col-12 ml-4 mt-2 text-left"><h3>Qosim's pattern design</h3></div>
 
                         <div class="col-12">
 
-                            <div class="row">
+                            <div class="row ml-4 mt-2">
                                 
                                 <div class="col-12 px-0 d-flex align-items-start justify-content-center" 
                                      style="max-width: 520px !important;
@@ -86,7 +86,7 @@
                             <div class="row">
 
                                 <!-- All textile images thumbnail are presented here -->
-                                <div class="col-12 mt-3" 
+                                <div class="col-12 mt-3 ml-4" 
                                      style="width:520px !important; flex-basis:initial;">  
 
                                     <nav aria-label="Page navigation example" 
