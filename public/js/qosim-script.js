@@ -109,7 +109,7 @@ function renderTicksByCm() {
 
         $(this).attr('index', idx );
 
-        $(this).css( 'left',  idx === 0 ? '0px' : ( ( idx * _cmRulerTickSpacing ) + 'px') );
+        $(this).css( 'left', (( idx * _cmRulerTickSpacing ) + 20 ) + 'px' );
 
         if( currentRulerValue.isGreaterThanOrEqual11cm ){
 
@@ -142,7 +142,7 @@ function appendTickNumbersForCmRuler() {
         //if(_isGreaterThan11cm && (i % 2 === 1)) continue;
 
         $('.myruler .ef-ruler .tick-numbering')
-        .append('<span class="tick-number" style="left:'+ (i * _tickBy) + 5 +'px;">' + i + '</span>');
+        .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + i + '</span>');
 
     }
     

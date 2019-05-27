@@ -131,13 +131,13 @@ div.ef-ruler .left{
     height: 60px !important;
     border-bottom: 1px solid #212529;
     border-right: 1px solid #212529;
-    border-left: none;
+    border-left: 1px solid #212529;;
 }
 
 
 .ruler-col-container{
     height: auto;
-    width: 560px !important;
+    width: 555px !important;
     display: flex;
     margin-left: -20px;
 }
@@ -154,8 +154,12 @@ div.ef-ruler .left{
 
 .ef-ruler .corner, .inches-ruler .corner{
     border-width: 1px 0px 0px 0px;
-    width: 0px;
-    height: 5px;
+    width: 15px;
+    height: 20px;
+    background-color: unset;
+    border-width: unset;
+    border-style: unset;
+    border-color: unset;
 }
 
 .top .micro{

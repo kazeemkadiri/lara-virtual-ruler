@@ -76,10 +76,6 @@
 
                                 <div class="ruler-col-container"
                                      style="overflow:hidden;">
-                                    <div class="scale-indicator mt-1" 
-                                         style="border: 2px solid rgb(0,0,0); border-right: none;">
-                                         cm
-                                    </div>
                                     <div class="myruler mt-1" style="display:none;"></div>
                                     <div class="secondruler mt-1" style="display:none;"></div>
                                 </div>
