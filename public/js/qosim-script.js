@@ -32,7 +32,7 @@ function renderRuler() {
 
     setTimeout( function() {
 
-        addRulerScalingInfoInsideRuler( '.myruler', 'Centimeters(cm)', 'cm');
+        addRulerScalingInfoInsideRuler( '.myruler', 'cm');
 
         addListenerForRulerTicksClick('.myruler');
         
@@ -50,7 +50,7 @@ function renderRuler() {
 
             renderRulerForFirstImage();
 
-            addRulerScalingInfoInsideRuler( '.secondruler', 'Inches(in)', 'in' );
+            addRulerScalingInfoInsideRuler( '.secondruler', 'in' );
 
         }, 3000);
 
@@ -58,9 +58,9 @@ function renderRuler() {
 
 }
 
-function addRulerScalingInfoInsideRuler( rulerInstance, scaleDesc, scaleUnit ) {
+function addRulerScalingInfoInsideRuler( rulerInstance, scaleUnit ) {
 
-    $( rulerInstance + ' .ef-ruler').append('<div class="ruler-scale-info mt-4 '+ scaleUnit +'" style="display:none"><h4>'+ scaleDesc +'</div>');
+    $( rulerInstance + ' .ef-ruler .corner').text( scaleUnit );
 
 }
 
