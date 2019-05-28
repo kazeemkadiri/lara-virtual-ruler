@@ -1,8 +1,4 @@
 var currentRulerValue = {
-    unit: '',
-    scaleValue: '',
-    tickBy: '',
-    isGreaterThanOrEqual11cm: false,
 };
 
 // Intializes the ruler and hides it
@@ -17,12 +13,39 @@ var currentRulerValue = {
     // Runs as the first image loaded on to the main display section
     setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
 
-    renderRuler();
+    createRuler();
 
+    renderRuler();
     
 }) (); // Javascript to manipulate ruler and ruler related actions
 
-function renderRuler() {
+function setImageRulerAttributes( liImageItem ) {
+
+    var _unit = currentRulerValue.unit = liImageItem[1].nodeValue;
+    var _scaleValue = currentRulerValue.scaleValue = liImageItem[2].nodeValue;
+
+    var tempScaleValueGreaterBoolean = null;    
+
+    switch( _unit.trim().toLowerCase() ){
+
+        case 'cm':
+            tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual11cm = ( _scaleValue >= 11 );
+            currentRulerValue.tickBy = tempScaleValueGreaterBoolean ? getNewCmTickSpacing(): getNewCmTickSpacingForLessThan11cm();
+        break;
+
+        case 'in':
+            tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual5inches = ( _scaleValue >= 5 );
+            currentRulerValue.tickBy = tempScaleValueGreaterBoolean ? getNewInchesTickSpacing(): getNewInchesTickSpacingForLessThan5inches();
+        break;
+
+        default:
+        break;
+
+    }
+    
+}
+
+function createRuler () {
 
     $('.myruler').ruler({
         unit: 'cm',
@@ -30,13 +53,17 @@ function renderRuler() {
         tickMinor: 2
     }); // Creates a cm based ruler 
 
+}
+
+function renderRuler() {
+
     setTimeout( function() {
 
         addRulerScalingInfoInsideRuler( '.myruler', 'cm');
 
         addListenerForRulerTicksClick('.myruler');
         
-        $('.myruler .ef-ruler .ruler.top').css('width', '520px !important');
+        setRulerWidth( '520px' );
 
         //All above applies only to cm ruler
 
@@ -58,9 +85,15 @@ function renderRuler() {
 
 }
 
+function setRulerWidth ( numberOfPixels ) {
+
+    $( '.myruler .ef-ruler .ruler.top' ).css( 'width', numberOfPixels + ' !important' );
+
+}
+
 function addRulerScalingInfoInsideRuler( rulerInstance, scaleUnit ) {
 
-    $( rulerInstance + ' .ef-ruler .corner').text( scaleUnit );
+   // $( rulerInstance + ' .ef-ruler .corner').text( scaleUnit );
 
 }
 
@@ -99,9 +132,7 @@ function renderTicksByCm() {
 
     getCmRuler( 'show' );
     
-    var _cmRulerTickSpacing = currentRulerValue.isGreaterThanOrEqual11cm ? 
-                                getNewCmTickSpacing()
-                                : getNewCmTickSpacingForLessThan11cm();
+    var _cmRulerTickSpacing = currentRulerValue.tickBy;
 
     appendTickNumbersForCmRuler();
 
@@ -130,20 +161,37 @@ function getNewCmTickSpacing() {
 
 }
 
+function getNewCmTickSpacingForLessThan11cm () {
+
+    return ( 520 / ( currentRulerValue.scaleValue * 2 ) );
+
+}
+
 function appendTickNumbersForCmRuler() {
 
     $('.myruler .ef-ruler').append('<div class="tick-numbering" style="width:100%;"></div>');
 
     var _tickBy = currentRulerValue.tickBy.toFixed(3);
-   // var _isGreaterThan11cm = currentRulerValue.isGreaterThanOrEqual11cm;
+    var _scaleValueLessThan11cm =  ! currentRulerValue.isGreaterThanOrEqual11cm;
 
     for(var i = 0; i <= Math.ceil(currentRulerValue.scaleValue * 2); i++ ) {
 
-        //if(_isGreaterThan11cm && (i % 2 === 1)) continue;
+        if( _scaleValueLessThan11cm && (i % 2 === 0) ) {
 
-        $('.myruler .ef-ruler .tick-numbering')
-        .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + i + '</span>');
+            $('.myruler .ef-ruler .tick-numbering')
+            .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + ( i / 2 ) + '</span>');    
 
+            continue;
+
+        } 
+
+        if( ! _scaleValueLessThan11cm ) {
+
+            $('.myruler .ef-ruler .tick-numbering')
+            .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + i + '</span>');
+
+        }
+        
     }
     
 
@@ -186,6 +234,10 @@ function renderTicksByInches() {
 
     }
 
+    var _cmRulerTickSpacing = currentRulerValue.i ? 
+                                getNewCmTickSpacing()
+                                : getNewCmTickSpacingForLessThan11cm();
+
     textileImageWidth = getNewInchesWidth( tempInchValue * 16 );
 
     var imageContainer = $( '.image-container' );
@@ -199,9 +251,9 @@ function renderTicksByInches() {
 
 function getCmRuler( state ) {
 
-    $('.myruler .ef-ruler').css('display', state == 'show' ? 'inherit' : 'none');
-    $('.myruler').css('display', state == 'show' ? 'inherit' : 'none');
-    $('.myruler .cm').css('display', state == 'show' ? 'block' : 'none');
+    $('.myruler .ef-ruler').css('display', state === 'show' ? 'inherit' : 'none');
+    $('.myruler').css('display', state === 'show' ? 'inherit' : 'none');
+    $('.myruler .cm').css('display', state === 'show' ? 'block' : 'none');
 
 }
 
@@ -323,30 +375,6 @@ function createElement( elementTitle ) {
 
 })();// Handles all thumbnail actions
 
-function setImageRulerAttributes( liImageItem ) {
-
-    var _unit = currentRulerValue.unit = liImageItem[1].nodeValue;
-    var _scaleValue = currentRulerValue.scaleValue = liImageItem[2].nodeValue;
-
-    var tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual11cm = ( _scaleValue >= 11 );
-
-    switch( _unit.trim() ){
-
-        case 'cm':
-            currentRulerValue.tickBy = tempScaleValueGreaterBoolean ? getNewCmTickSpacing(): getNewCmTickSpacingForLessThan11cm();
-        break;
-
-        case 'in':
-            currentRulerValue.tickBy = getNewInchesTickSpacing();
-        break;
-
-        default:
-        break;
-
-    }
-    
-}
-
 function detachLeftRuler() {
 
     $('.ruler.left').each( function(){ $(this).detach(); });
@@ -403,12 +431,6 @@ function getNewCmWidth( selectedRulerValue ) {
     if(selectedRulerValue === 0) return;
 
     return ( 17.333 * selectedRulerValue ) + 'px';
-
-}
-
-function getNewCmTickSpacingForLessThan11cm () {
-
-    return ( 520 / ( currentRulerValue.scaleValue * 2 ) );
 
 }
 
