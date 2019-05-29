@@ -1,4 +1,8 @@
 var currentRulerValue = {
+    unit: '',
+    scaleValue: '',
+    tickBy: '',
+    isGreaterThanOrEqual11cm: false,
 };
 
 // Intializes the ruler and hides it
@@ -126,7 +130,7 @@ function renderRulerForFirstImage() {
 
 }
 
-function renderTicksByCm() {
+function renderTicksByCm( newRender = false ) {
 
     getInchesRuler( 'hide' );
 
@@ -134,7 +138,7 @@ function renderTicksByCm() {
     
     var _cmRulerTickSpacing = currentRulerValue.tickBy;
 
-    appendTickNumbersForCmRuler();
+    appendTickNumbersForCmRuler( newRender );
 
     $('.myruler .tick').each( function(idx){
 
@@ -167,12 +171,21 @@ function getNewCmTickSpacingForLessThan11cm () {
 
 }
 
-function appendTickNumbersForCmRuler() {
+function removeTickNumberingsFromRuler ( rulerSelector ) {
+
+    $( rulerSelector + ' .ef-ruler .tick-numbering' ).detach();
+
+}
+
+function appendTickNumbersForCmRuler( newRender = false ) {
+
+    if( newRender ) removeTickNumberingsFromRuler( '.myruler' ); 
 
     $('.myruler .ef-ruler').append('<div class="tick-numbering" style="width:100%;"></div>');
 
     var _tickBy = currentRulerValue.tickBy.toFixed(3);
     var _scaleValueLessThan11cm =  ! currentRulerValue.isGreaterThanOrEqual11cm;
+
 
     for(var i = 0; i <= Math.ceil(currentRulerValue.scaleValue * 2); i++ ) {
 
@@ -200,19 +213,19 @@ function appendTickNumbersForCmRuler() {
 function addListenerForRulerTicksClick(rulerInstance) {
 
     
-        $( rulerInstance + ' .tick').each( function( idx ){
+        // $( rulerInstance + ' .tick').each( function( idx ){
 
-            //$(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
+        //     //$(this).css( 'left',  idx === 0 ? '0%' : ( (idx) + '%') );
 
-            var that = this;
+        //     var that = this;
 
-            $(that).click( function(){
+        //     $(that).click( function(){
 
-                setNewWidthForImageContainer( that );
+        //         setNewWidthForImageContainer( that );
 
-            });
+        //     });
 
-        });
+        // });
 
 }
 
@@ -354,13 +367,13 @@ function createElement( elementTitle ) {
 
                 if( currentRulerValue.unit === 'cm' ) {
 
-                    renderTicksByCm();
+                    renderTicksByCm( true );
 
                     // console.log('rendering cm ruler')
     
                 } else {  
                     
-                    renderTicksByInches(); 
+                    renderTicksByInches( true ); 
                     
                     // console.log('rendering inches ruler');
                 }
