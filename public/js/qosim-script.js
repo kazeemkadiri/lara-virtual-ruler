@@ -3,6 +3,7 @@ var currentRulerValue = {
     scaleValue: '',
     tickBy: '',
     isGreaterThanOrEqual11cm: false,
+    isGreaterThanOrEqual5Inches: false
 };
 
 // Intializes the ruler and hides it
@@ -15,7 +16,7 @@ var currentRulerValue = {
     var textileThumbnail = document.querySelectorAll( '.textile-thumbnail' )[0];
     
     // Runs as the first image loaded on to the main display section
-    setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
+    setTextileImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
 
     createRuler();
 
@@ -23,24 +24,38 @@ var currentRulerValue = {
     
 }) (); // Javascript to manipulate ruler and ruler related actions
 
-function setImageRulerAttributes( liImageItem ) {
+function setTextileImageRulerAttributes( liTextileImageItem ) {
 
-    var _unit = currentRulerValue.unit = liImageItem[1].nodeValue;
-    var _scaleValue = currentRulerValue.scaleValue = liImageItem[2].nodeValue;
+    var _unit = currentRulerValue.unit = liTextileImageItem[1].nodeValue;
+    var _scaleValue = currentRulerValue.scaleValue = liTextileImageItem[2].nodeValue;
 
     var tempScaleValueGreaterBoolean = null;    
 
     switch( _unit.trim().toLowerCase() ){
 
         case 'cm':
+            
             tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual11cm = ( _scaleValue >= 11 );
+            
             currentRulerValue.tickBy = tempScaleValueGreaterBoolean ? getNewCmTickSpacing(): getNewCmTickSpacingForLessThan11cm();
-        break;
+        
+            break;
 
         case 'in':
-            tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual5inches = ( _scaleValue >= 5 );
+            
+            tempScaleValueGreaterBoolean = currentRulerValue.isGreaterThanOrEqual5Inches = ( _scaleValue >= 5 );
+            
+            if( _scaleValue.indexOf('.') > -1 ) {
+
+                _scaleValue = _scaleValue.split('.');
+
+                currentRulerValue.scaleValue = ( _scaleValue[0] * 16 ) + Math.floor(_scaleValue[1]);
+
+            }
+
             currentRulerValue.tickBy = tempScaleValueGreaterBoolean ? getNewInchesTickSpacing(): getNewInchesTickSpacingForLessThan5inches();
-        break;
+            
+            break;
 
         default:
         break;
@@ -71,17 +86,17 @@ function renderRuler() {
 
         //All above applies only to cm ruler
 
-        renderRulerTicksByInches(); // clones the cm ruler "ef-ruler" and appends to inches ruler "secondruler"
+        renderRulerTicksByInches(); // clones the cm ruler "ef-ruler" and appends to inches ruler "second-ruler"
 
         setTimeout( function() {
             
-            addListenerForRulerTicksClick( '.secondruler' );
+            addListenerForRulerTicksClick( '.second-ruler' );
 
-            translateTicksDown( '.secondruler' );
+            translateTicksDown( '.second-ruler' );
 
             renderRulerForFirstImage();
 
-            addRulerScalingInfoInsideRuler( '.secondruler', 'in' );
+            addRulerScalingInfoInsideRuler( '.second-ruler', 'in' );
 
         }, 3000);
 
@@ -154,6 +169,8 @@ function renderTicksByCm( newRender = false ) {
         
 
     });
+
+    if( newRender ) return;
 
     translateTicksDown( '.myruler' );
 
@@ -229,37 +246,89 @@ function addListenerForRulerTicksClick(rulerInstance) {
 
 }
 
-function renderTicksByInches() {
-
-    // console.log('Rendering by inches');
+function renderTicksByInches( newRender = false ) {
 
     getInchesRuler( 'show' );
 
     getCmRuler( 'hide' );
 
-    var tempInchValue = currentRulerValue.scaleValue;
+    var _inchesRulerTickSpacing = currentRulerValue.tickBy;
     
-    if( tempInchValue.indexOf('.') > -1 ) {
+    appendTickNumbersForInchesRuler( newRender );
 
-        tempInchValue = tempInchValue.split('.');
+    $('.second-ruler .tick').each( function(idx){
 
-        tempInchValue = ( tempInchValue[0] * 16 ) + Math.floor(tempInchValue[1]);
+        $(this).attr('index', idx );
 
+        $(this).css( 'left', (( idx * _inchesRulerTickSpacing * 16 ) + 20 ) + 'px' );
+
+        if( currentRulerValue.isGreaterThanOrEqual5inches ){
+
+            $( this ).removeClass( 'micro' ).addClass( 'major' );
+
+        } else {
+
+            $( this ).removeClass( 'minor' ).addClass( 'major' );
+
+        }
+    
+    });
+
+    translateTicksDown( '.second-ruler' );
+
+}
+
+function getNewInchesTickSpacing() {
+
+    return  520 / ( currentRulerValue.scaleValue * 16 );
+
+}
+
+function getNewInchesTickSpacingForLessThan5inches () {
+
+    return ( 520 / ( currentRulerValue.scaleValue * 2 ) );
+
+}
+
+function appendTickNumbersForInchesRuler( newRender = false ) {
+
+    if( newRender ) removeTickNumberingsFromRuler( '.second-ruler' ); 
+
+    $('.second-ruler .ef-ruler').append('<div class="tick-numbering" style="width:100%;"></div>');
+
+    var _tickBy = currentRulerValue.tickBy.toFixed(3);
+    
+    var _scaleValueGreaterThanOrEqual5Inches =  currentRulerValue.isGreaterThanOrEqual5Inches;
+
+
+    for(var i = 0; i <= Math.ceil( currentRulerValue.scaleValue ) * 16; i++ ) {
+
+        if(  _scaleValueGreaterThanOrEqual5Inches  && (i % 16 === 0)  ) {
+
+            $('.second-ruler .ef-ruler .tick-numbering')
+            .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + (i === 0) ? '0' : ( i / 16 ) + '</span>');    
+
+        } 
+
+        if( _scaleValueGreaterThanOrEqual5Inches ) {
+
+            if( i % 8 === 0 ){
+
+                $('.second-ruler .ef-ruler .tick-numbering')
+                .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;"> <sup>1/2</sup> </span>');
+
+            } else if ( i % 16 === 0 ) {
+
+                $('.second-ruler .ef-ruler .tick-numbering')
+                .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + ( i / 16 )  + '</span>');
+
+            }
+
+        }
+        
     }
+    
 
-    var _cmRulerTickSpacing = currentRulerValue.i ? 
-                                getNewCmTickSpacing()
-                                : getNewCmTickSpacingForLessThan11cm();
-
-    textileImageWidth = getNewInchesWidth( tempInchValue * 16 );
-
-    var imageContainer = $( '.image-container' );
-
-    imageContainer.css( 'width', textileImageWidth );
-
-    $( '.main-textile-image').css( 'width', textileImageWidth + '!important' );
-
-    imageContainer.css( 'transform', 'translateX(' + (( stripPxFromValue(textileImageWidth) - 520 ) / 2 ) + 'px)') ;
 }
 
 function getCmRuler( state ) {
@@ -272,19 +341,19 @@ function getCmRuler( state ) {
 
 function getInchesRuler( state ) {
 
-    $('.secondruler .ef-ruler').css('display', state == 'show' ? 'inherit' : 'none');
+    $('.second-ruler .ef-ruler').css('display', state == 'show' ? 'inherit' : 'none');
 
-    $('.secondruler').css('display', state == 'show' ? 'inherit' : 'none');
+    $('.second-ruler').css('display', state == 'show' ? 'inherit' : 'none');
 
-    $('.secondruler .in').css('display', state == 'show' ? 'block' : 'none');
+    $('.second-ruler .in').css('display', state == 'show' ? 'block' : 'none');
 
 }
 
 function renderRulerTicksByInches () {
 
-    document.querySelector('.secondruler').append(document.querySelector('.ef-ruler').cloneNode( true ));
+    document.querySelector('.second-ruler').append(document.querySelector('.ef-ruler').cloneNode( true ));
  
-    var rulerTop = document.querySelector('.secondruler .ruler');
+    var rulerTop = document.querySelector('.second-ruler .ruler');
 
     var tickElement = '';
 
@@ -360,7 +429,7 @@ function createElement( elementTitle ) {
             // Renders image into main image view by getting src from image tag in list thumbnail
             mainTextileImageDisplay.src =  (this.children[0]).children[0].src;
 
-            setImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
+            setTextileImageRulerAttributes( Array.from( textileThumbnail.attributes ) );
 
             //Passes the corresponding cm or in value to ruler
             if( currentRulerValue.scaleValue !== undefined ) {
@@ -392,7 +461,7 @@ function detachLeftRuler() {
 
     $('.ruler.left').each( function(){ $(this).detach(); });
 
-    $('.ef-ruler .corner').each( function(){ $(this).text( '0' ).css('font-size', '8px'); });
+    // $('.ef-ruler .corner').each( function(){ $(this).text( '0' ).css('font-size', '8px'); });
 
 }
 
