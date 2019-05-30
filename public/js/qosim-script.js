@@ -49,7 +49,7 @@ function setTextileImageRulerAttributes( liTextileImageItem ) {
 
                 _scaleValue = _scaleValue.split('.');
 
-                currentRulerValue.scaleValue = ( _scaleValue[0] * 16 ) + Math.floor(_scaleValue[1]);
+                currentRulerValue.scaleValue = ( _scaleValue[0] * 16 ) + ( 16 / Math.floor( 10 / _scaleValue[1]) );
 
             }
 
@@ -252,23 +252,25 @@ function renderTicksByInches( newRender = false ) {
 
     getCmRuler( 'hide' );
 
-    var _inchesRulerTickSpacing = currentRulerValue.tickBy;
-    
     appendTickNumbersForInchesRuler( newRender );
+
+    var _inchesRulerTickSpacing = Number(currentRulerValue.tickBy);
+    
+    var tickDelimiterValue = ( currentRulerValue.isGreaterThanOrEqual5Inches ) ? 16 : 8;
 
     $('.second-ruler .tick').each( function(idx){
 
         $(this).attr('index', idx );
 
-        $(this).css( 'left', (( idx * _inchesRulerTickSpacing * 16 ) + 20 ) + 'px' );
+        $(this).css( 'left', (( idx * _inchesRulerTickSpacing * tickDelimiterValue ) + 20 ) + 'px' );
 
-        if( currentRulerValue.isGreaterThanOrEqual5inches ){
+        if( currentRulerValue.isGreaterThanOrEqual5Inches ){
 
-            $( this ).removeClass( 'micro' ).addClass( 'major' );
+            $( this ).removeClass( 'micro' ).removeClass( 'minor' ).addClass( 'major' );
 
         } else {
 
-            $( this ).removeClass( 'minor' ).addClass( 'major' );
+            $( this ).removeClass( 'micro' ).removeClass( 'major' ).addClass( ( idx % 2 === 0 ) ? 'major' : 'minor' );
 
         }
     
@@ -286,7 +288,7 @@ function getNewInchesTickSpacing() {
 
 function getNewInchesTickSpacingForLessThan5inches () {
 
-    return ( 520 / ( currentRulerValue.scaleValue * 2 ) );
+    return ( 520 / ( currentRulerValue.scaleValue ) );
 
 }
 
@@ -296,31 +298,41 @@ function appendTickNumbersForInchesRuler( newRender = false ) {
 
     $('.second-ruler .ef-ruler').append('<div class="tick-numbering" style="width:100%;"></div>');
 
-    var _tickBy = currentRulerValue.tickBy.toFixed(3);
+    var _tickBy = Number(currentRulerValue.tickBy.toFixed(3));
     
     var _scaleValueGreaterThanOrEqual5Inches =  currentRulerValue.isGreaterThanOrEqual5Inches;
 
 
-    for(var i = 0; i <= Math.ceil( currentRulerValue.scaleValue ) * 16; i++ ) {
+    for(var i = 0; i <= ( Math.ceil( currentRulerValue.scaleValue ) * 16 ); i++ ) {
 
         if(  _scaleValueGreaterThanOrEqual5Inches  && (i % 16 === 0)  ) {
 
+            var tempTickNumber =  (i === 0) ? '0': ( i / 16 );
+
+            var numberSpacing = ((i * _tickBy) + 20);
+
             $('.second-ruler .ef-ruler .tick-numbering')
-            .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + (i === 0) ? '0' : ( i / 16 ) + '</span>');    
+            .append('<span class="tick-number" style="left:'+ numberSpacing +'px;">' + tempTickNumber + '</span>');    
 
         } 
 
-        if( _scaleValueGreaterThanOrEqual5Inches ) {
+        if( ! _scaleValueGreaterThanOrEqual5Inches ) {
 
-            if( i % 8 === 0 ){
+            if( i % 8 === 0 && (  ( i / 8 ) % 2 === 1 ) ){
+                
+                var numberSpacing = ((i * _tickBy) + 20);
 
                 $('.second-ruler .ef-ruler .tick-numbering')
-                .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;"> <sup>1/2</sup> </span>');
+                .append('<span class="tick-number" style="left:'+ numberSpacing +'px;"> <sup>1/2</sup> </span>');
 
             } else if ( i % 16 === 0 ) {
 
+                var numberSpacing = ((i * _tickBy) + 20);
+
+                var tempTickNumber =  (i === 0) ? '0': ( i / 16 );
+
                 $('.second-ruler .ef-ruler .tick-numbering')
-                .append('<span class="tick-number" style="left:'+ ((i * _tickBy) + 20) +'px;">' + ( i / 16 )  + '</span>');
+                .append('<span class="tick-number" style="left:'+ numberSpacing +'px;">' + tempTickNumber  + '</span>');
 
             }
 
