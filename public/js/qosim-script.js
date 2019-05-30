@@ -112,7 +112,7 @@ function setRulerWidth ( numberOfPixels ) {
 
 function addRulerScalingInfoInsideRuler( rulerInstance, scaleUnit ) {
 
-   // $( rulerInstance + ' .ef-ruler .corner').text( scaleUnit );
+   $( rulerInstance + ' .ef-ruler .corner').text( scaleUnit );
 
 }
 

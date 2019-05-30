@@ -156,8 +156,8 @@ div.ef-ruler .left{
     border-width: 1px 0px 0px 0px;
     width: 15px;
     height: 20px;
-    top: 5px;
-    left: -5px;
+    top: 5px !important;
+    left: -2px !important;
     transform: rotateZ(-90deg);
     font-weight: bold;
     font-size: 14px;
