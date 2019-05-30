@@ -40,7 +40,7 @@
 
                     <div class="row">
             
-                       <div class="col-12 ml-4 mt-2 text-left"><h3>Qosim's pattern design</h3></div>
+                       <div class="col-12 ml-4 mt-2 text-left"><h3> {{ Auth::user()->name }} pattern design</h3></div>
 
                         <div class="col-12">
 
