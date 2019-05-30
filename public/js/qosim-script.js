@@ -279,7 +279,7 @@ function renderTicksByInches( newRender = false ) {
 
         if( currentRulerValue.isGreaterThanOrEqual5Inches ){
 
-            $( this ).removeClass( 'micro' ).removeClass( 'minor' ).addClass( 'major' );
+            $( this ).removeClass( 'micro' ).removeClass( 'minor' ).removeClass( 'major' ).addClass( 'major' );
 
         } else {
 
@@ -295,7 +295,9 @@ function renderTicksByInches( newRender = false ) {
 
 function getNewInchesTickSpacing() {
 
-    return  520 / ( currentRulerValue.scaleValue * 16 );
+    var tempDelimiter = ( currentRulerValue.scaleValue > 11 ) ? 1 : 16;
+
+    return  520 / ( currentRulerValue.scaleValue * tempDelimiter);
 
 }
 
