@@ -86,11 +86,13 @@
 
                                 <!-- All textile images thumbnail are presented here -->
                                 <div class="col-12 mt-3 ml-4" 
-                                     style="width:520px !important; flex-basis:initial;">  
+                                     style="width:520px !important; flex-basis:initial; position: relative;">  
 
                                     <nav aria-label="Page navigation example" 
                                          class="d-flex justify-content-center" 
-                                          style="width:99.99%; max-width: 100%;">
+                                          style="position:absolute; width:99.99%; max-width: 100%;">
+
+                                        <div style="position:absolute; z-index:50; width:100%; height:100%;" class="textile-thumbnail-disabler-overlay"></div>
 
                                         <ul class="pagination" style="overflow: scroll; overflow-y: hidden; width: 100%;">
 

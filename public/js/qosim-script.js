@@ -20,9 +20,22 @@ var currentRulerValue = {
 
     createRuler();
 
+    enableTextileThumbnailsClick();
+
     renderRuler();
     
 }) (); // Javascript to manipulate ruler and ruler related actions
+
+
+function enableTextileThumbnailsClick () {
+    
+    $.initialize(".myruler .ef-ruler .ruler.top", function() {
+
+        $("div.textile-thumbnail-disabler-overlay").detach();
+
+    });
+
+}
 
 function setTextileImageRulerAttributes( liTextileImageItem ) {
 

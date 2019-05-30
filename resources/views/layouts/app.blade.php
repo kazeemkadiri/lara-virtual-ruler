@@ -37,6 +37,7 @@
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
 
     <script src="{{ asset('js/jquery.ui.ruler.js') }}"></script>
+    <script src="{{ asset('js/jquery-initialize.min.js') }}"></script>
     <script src="{{ asset('js/qosim-script.js') }}"></script>
     
    
